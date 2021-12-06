@@ -4,8 +4,6 @@ function init(){
     sm = document.getElementById("sm");
     sm.onmouseover = over;
     sm.onmouseout = out;
-    
- 
 }
 
 function over(){
@@ -20,6 +18,3 @@ function focuson(){
     unamewrap.style.backgroundColor="#E7DFFF";
 }
 
-var oooo = ()=> {console.log('asdf');}
-
-export default oooo ;

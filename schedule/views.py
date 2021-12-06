@@ -2,14 +2,14 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'timetable.html')
+def index(req):
+    return render(req, 'timetable.html')
 
-def Details(request):
-    return render(request, 'Details.html')
+def schedule(req):
+    return render(req, 'schedule.html')
 
-def login(request):
-    return render(request, 'login.html')
+def signin(req):
+    return render(req, 'signin.html')
 
 def signup(req):
     return render(req, 'signup.html')
