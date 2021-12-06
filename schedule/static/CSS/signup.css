@@ -1,0 +1,238 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fafafa;
+}
+
+.wrapper{
+    width: 400px;
+    height: 580px;
+    border-Radius: 24px;
+    padding: 48px;
+    padding-top: 25px;
+    background-color: #FFFFFF;
+    border: 1px solid;
+    border-color: #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.reg{
+    color:#5F26FF;
+    width: 340px;
+    height: 56px;
+    font-family: Playfair Display;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 56px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    align-self: stretch;
+    flex-grow: 0;
+    margin: 12px 0px;
+    text-align: left;
+}
+
+.kreg{
+    color:#ADADAD;
+    width: 340px;
+    height: 24px;
+    top: 68px;
+    font-family: Pretendard;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    align-self: stretch;
+    flex-grow: 0;
+    margin: 12px 0px;
+    text-align: left;
+}
+
+.Email{
+    padding-left: 20px;
+    width: 100%;
+    background-color:#FFFFFF;
+    border: none;
+}
+
+.password{
+    padding-left: 20px;
+    width: 100%;
+    background-color:#FFFFFF;
+    border: none;
+}
+
+.password2{
+    padding-left: 20px;
+    width: 100%;
+    background-color:#FFFFFF;
+    border: none;
+}
+
+.regb{
+    background: #5F26FF;
+    color: #FFFFFF;
+    width: 300px;
+    height: 50px;
+    border-radius: 5px;
+    border:none;
+}
+
+.dv{
+    width: 300px;
+    height: 2px;
+    border: 0;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    background-color: #E0E0E0;
+}
+
+.login{
+    background: #FFFFFF;
+    color: #5F26FF;
+    width: 300px;
+    height: 50px;
+    border-radius: 5px;
+    border-color: #5F26FF;
+    font-weight: bold;
+}
+
+.warn_input_id{
+    padding-left: 10px;
+    width: 90%;
+    background-color:#ffebeb;
+    border: none;
+}
+
+.warn_input_pw{
+    padding-left: 10px;
+    width: 90%;
+    background-color:#ffebeb;
+    border: none;
+}
+
+.warn_input_pw2{
+    padding-left: 10px;
+    width: 90%;
+    background-color:#ffebeb;
+    border: none;
+}
+
+.d_email{
+    padding-bottom: 10px;
+    margin: 0px;
+    background-color:#FFFFFF;
+    width: 300px;
+    height: 45px;
+    border: none;
+    box-shadow: #ADADAD 0px 2px 0px;
+}
+
+.d_pw{
+    padding-bottom: 10px;
+    margin: 0px;
+    background-color:#FFFFFF;
+    width: 300px;
+    height: 45px;
+    border: none;
+    box-shadow: #ADADAD 0px 2px 0px;
+}
+
+.d_pw2{
+    padding-bottom: 10px;
+    margin: 0px;
+    background-color:#FFFFFF;
+    width: 300px;
+    height: 45px;
+    border: none;
+    box-shadow: #ADADAD 0px 2px 0px;
+}
+
+.warn_div_id{
+    padding-bottom: 10px;
+    margin: 0px;
+    background-color:#ffebeb;
+    width: 300px;
+    height: 45px;
+    border: none;
+    box-shadow: red 0px 2px 0px;
+}
+
+.warn_div_pw{
+    padding-bottom: 10px;
+    margin: 0px;
+    background-color:#ffebeb;
+    width: 300px;
+    height: 45px;
+    border: none;
+    box-shadow: red 0px 2px 0px;
+}
+
+.warn_div_pw2{
+    padding-bottom: 10px;
+    margin: 0px;
+    background-color:#ffebeb;
+    width: 300px;
+    height: 45px;
+    border: none;
+    box-shadow: red 0px 2px 0px;
+}
+
+.p_email{
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.p_pw{
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.p_pw2{
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.l_email{
+    margin: 0px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-family: Playfair Display;
+    font-style: normal;
+    font-size: 8px;
+    font-weight: bold;
+    color:red;
+}
+
+.l_pw{
+    margin: 0px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-family: Playfair Display;
+    font-style: normal;
+    font-size: 8px;
+    font-weight: bold;
+    color:red;
+}
+
+.l_pw2{
+    margin: 0px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    font-family: Playfair Display;
+    font-style: normal;
+    font-size: 8px;
+    font-weight: bold;
+    color:red;
+}
