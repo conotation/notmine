@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{%static 'CSS/login.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <script src="{% static 'JS/jquery-3.6.0.min.js' %}" crossorigin="anonymous"></script>
+    <script src="{% static 'JS/login.js' %}"></script>
+    <script>
+	    if(document.cookie) location.href='./Details';
+        $(document).ready(()=>{
+            $('.sm').click(()=>{ actLogin(); return false;});
+            $('.reb').click(()=>{ location.href=("./signup.html");});
+			    $('.uname').click(()=>{
+						$('#unamewrap').css('backgroundColor', "#E7DFFF")});
+			    init();
+        });
+
+        actLogin = () => {
+            var id = $('#uname').val().trim()
+            var pw = $('#pw').val().trim()
+
+            if(id.length == 0) {
+                $('.uname').focus();
+                $('.uname').attr("class","warn");
+                alert("아이디를 입력하세요.")
+                return false;
+            } else if (pw.length == 0) {
+                $('.pw').focus();
+                alert("비밀번호를 입력하세요.")
+                return false;
+            }
+            var dData = {"id": id, "pw": pw }; //sha256(pw)}
+            $.ajax({
+                type: "POST",
+                url: "http://conota.cf/login",
+                data: dData,
+                success: (res) => {
+                    console.log('성공 ' + JSON.stringify(res))
+                    if(res.message=='auth failed') {
+                        console.log('로그인 실패');
+                        return false;
+                    }
+                    setCookie('token', res.token, 30);
+		    location.href = '/schedule/Details';
+                }, error: (req, stat, err) => {
+                    console.log('실패');
+                }
+            });
+        }
+
+        var setCookie = (name, value, exp) => {
+            var date = new Date();
+            date.setTime(date.getTime() + exp*24*60*60*1000);
+            document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        };
+    </script>
+</head>
+<body>
+    <div class="wrapper" id="box">
+        <span class="signin">Sign In</span>
+        <span class="login">로그인</span>
+        <form method="POST" onsubmit="return false;" novalidate>
+            <div class="unamewrap" id="unamewrap">
+                <P class="p">
+                    <label class="lb">가입하지 않은 이메일입니다.</label>
+                </P>
+                <input name="username" type="text" class="uname" id="uname" placeholder="Email" required>
+            </div>
+            <br>
+            <input name="password" type="password" id='pw' class="pw" placeholder="비밀번호" required>
+            <br><br>
+            <input type="submit" value="로그인" class="sm" id="sm">
+        </form>
+        <hr class="dv">
+        <button type="button" class="reb">회원 가입</button>
+    </div>
+</body>
+</html>

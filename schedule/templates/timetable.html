@@ -1,0 +1,35 @@
+{% load static %}
+<head>
+    <script  src="{% static 'jquery-3.6.0.min.js' %}"></script>
+    <script  src="{% static 'bootstrap.bundle.js' %}"></script>
+    <script  src="{% static 'popper.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{%static 'bootstrap.min.css' %}">
+    </head>
+    <!-- jQuery JS -->
+
+<div class="container-fluid">
+  <!-- Content here -->
+    <div class="d-flex justify-content-around">
+      <h1 id='title'>TimeTables</h1>
+      <table></table>
+      <table></table>
+    </div>
+    <div class="d-flex justify-content-around">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">시간표 목록</li>
+              </ol>
+            </nav>
+      <table></table>
+        <div class="dropdown">
+                <!--<div class="p-2 flex-sm-shrink-1 bd-highlight">-->
+                <button id="dropdownMenuButton1" type="button" class="btn btn-primary btn-sm" data-toggle="dropdown" aria-expanded="false" style="background-color : #8A2BE2; border-color: #8A2BE2; box-shadow:initial; ">+ 시간표 추가</button>
+                <!--</div>-->
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">주간 시간표 생성</a></li>
+                    <li><a class="dropdown-item" href="#">월간 시간표 생성</a></li>
+                </ul>
+        </div>
+    </div>
+</div>
+<hr/>
