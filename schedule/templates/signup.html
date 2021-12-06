@@ -6,10 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-<link rel="stylesheet" type="text/css" href="{% static signup.css %}">
+<link rel="stylesheet" type="text/css" href="{% static 'CSS/signup.css' %}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+<script src="{% static 'JS/jquery-3.6.0.min.js' %}" crossorigin="anonymous"></script>
 <script>
         $(document).ready(()=>{
             $('.sm').click(()=>{ actLogin(); return false;});
