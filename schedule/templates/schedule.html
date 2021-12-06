@@ -1,809 +1,733 @@
 {% load static %}
+
 <head>
-<script src="{% static 'JS/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'JS/bootstrap.bundle.js' %}"></script>
-<script src="{% static 'JS/popper.min.js' %}"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!-- 부트스트랩 -->
-<link rel="stylesheet" type="text/css" href="{% static 'CSS/bootstrap.min.css' %}"/>
-<!-- 웹 폰트 -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"/>
-<!-- 구글 아이콘 css-->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{% static 'JS/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'JS/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'JS/popper.min.js' %}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- 부트스트랩 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/bootstrap.min.css' %}" />
+    <!-- 웹 폰트 -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+    <!-- 구글 아이콘 css-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
     -->
-<link rel="stylesheet" type="text/css" href="{% static 'CSS/schedule.css' %}"/>
-<script>
-        function getCookie(cookieName){
-            var cookieValue=null;
-            if(document.cookie){
-                        var array=document.cookie.split((escape(cookieName)+'='));
-                        if(array.length >= 2){
-                            var arraySub=array[1].split(';');
-                            cookieValue=unescape(arraySub[0]);
-                        }
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/schedule.css' %}" />
+    <script>
+        function getCookie(cookieName) {
+            var cookieValue = null;
+            if (document.cookie) {
+                var array = document.cookie.split((escape(cookieName) + '='));
+                if (array.length >= 2) {
+                    var arraySub = array[1].split(';');
+                    cookieValue = unescape(arraySub[0]);
                 }
+            }
             return cookieValue;
         }
 
-        if(getCookie('token') == null)
+        if (getCookie('token') == null)
             console.log('session expired');
 
-        $(document).ready(()=>{
+        $(document).ready(() => {
             var name = getCookie('token');
-            $('#title').text(atob(name)+$('#title').text());
-        });
-        
-        // Get the modal 일정생성
-        var modal1 = document.getElementById('myModal');
-        // Get the button that opens the modal
-        var btn1 = document.getElementById("myBtn");
-        // Get the <span> element that closes the modal
-        var span1 = document.getElementById("modalCancel1");
-        // When the user clicks on the button, open the modal
-        btn1.onclick = function() {
+            $('#title').text(atob(name) + $('#title').text());
+
+            // Get the modal 일정생성
+            var modal1 = document.getElementById('myModal');
+            // Get the button that opens the modal
+            var btn1 = document.getElementById("myBtn");
+            // Get the <span> element that closes the modal
+            var span1 = document.getElementById("modalCancel1");
+            // When the user clicks on the button, open the modal
+            btn1.onclick = function() {
                 modal1.style.display = "flex";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span1.onclick = function() {
-                modal1.style.display = "none";
-        }
-        /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal1) {
+            }
+            // When the user clicks on <span> (x), close the modal
+            span1.onclick = function() {
                 modal1.style.display = "none";
             }
-        }
-        */
-        // Get the modal 메모생성
-        var modal2 = document.getElementById('myModal2');
-        // Get the button that opens the modal
-        var btn2 = document.getElementById("myBtn2");
-        // Get the <span> element that closes the modal
-        var span2 = document.getElementById("modalCancel2");
-        // When the user clicks on the button, open the modal
-        btn2.onclick = function() {
+            /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal1) {
+                    modal1.style.display = "none";
+                }
+            }
+            */
+            // Get the modal 메모생성
+            var modal2 = document.getElementById('myModal2');
+            // Get the button that opens the modal
+            var btn2 = document.getElementById("myBtn2");
+            // Get the <span> element that closes the modal
+            var span2 = document.getElementById("modalCancel2");
+            // When the user clicks on the button, open the modal
+            btn2.onclick = function() {
                 modal2.style.display = "flex";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span2.onclick = function() {
-                modal2.style.display = "none";
-        }
-        /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
+            }
+            // When the user clicks on <span> (x), close the modal
+            span2.onclick = function() {
                 modal2.style.display = "none";
             }
-        }
-        */
+            /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal2.style.display = "none";
+                }
+            }
+            */
             // modal 수정
-        var modal3 = document.getElementById('myModalModify');
-        // Get the button that opens the modal
-        var btn3 = document.getElementById("myBtn3");
-        // Get the <span> element that closes the modal
-        var span3 = document.getElementById("modalCancelModify");
-        // When the user clicks on the button, open the modal
-        btn3.onclick = function() {
+            var modal3 = document.getElementById('myModalModify');
+            // Get the button that opens the modal
+            var btn3 = document.getElementById("myBtn3");
+            // Get the <span> element that closes the modal
+            var span3 = document.getElementById("modalCancelModify");
+            // When the user clicks on the button, open the modal
+            btn3.onclick = function() {
                 modal3.style.display = "flex";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span3.onclick = function() {
-                modal3.style.display = "none";
-        }
-        /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal1) {
-                modal1.style.display = "none";
             }
-        }
-        */
+            // When the user clicks on <span> (x), close the modal
+            span3.onclick = function() {
+                modal3.style.display = "none";
+            }
+            /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal1) {
+                    modal1.style.display = "none";
+                }
+            }
+            */
+
+        });
     </script>
 </head>
+
 <body style="font-family : 'Pretendard' ">
-<!-- 페이지 상단부분-->
-<div class="d-flex justify-content-around">
-    <h1 id='title'>의 시간표</h1>
-    <table>
-    </table>
-    <table>
-    </table>
-    <table>
-    </table>
-    <table>
-    </table>
-    <table>
-    </table>
-    <table>
-    </table>
-    <!--드롭다운 버튼(일정 생성)-->
-    <div class="dropdown">
-        <!--<div class="p-2 flex-sm-shrink-1 bd-highlight">-->
-        <button id="dropdownMenuButton1" type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" aria-expanded="false">
-        <img id="CreateIcon" src="{% static 'images/outline_add_box_white_24dp.png' %}"/> 일정 생성 </button>
-        <!--</div>-->
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a id="myBtn" class="dropdown-item" href="#">일정 생성</a></li>
-            <li><a id="myBtn2" class="dropdown-item" href="#">메모 생성</a></li>
-        </ul>
-    </div>
-    <!-- 일정생성 모달 -->
-    <div id="myModal" class="modal">
-        <!-- 모달안 내용 -->
-        <div class="modal-mask">
-            <div class="modal-content">
-                <!--제목과 textarea-->
-                <div>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
-                </div>
-                <div>
-                    <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
-                </div>
-                <div class="timeLabel">
-                    <a style="position : absolute; top:30px; left:27px;">요일</a>
-                    <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
-                    <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
-                </div>
-                <div style="align-item:center;" class="timeSelect">
+    <!-- 페이지 상단부분-->
+    <div class="d-flex justify-content-around">
+        <h1 id='title'>의 시간표</h1>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <table></table>
+        <!--드롭다운 버튼(일정 생성)-->
+        <div class="dropdown">
+            <!--<div class="p-2 flex-sm-shrink-1 bd-highlight">-->
+            <button id="dropdownMenuButton1" type="button" class="btn btn-primary btn-lg" data-bs-toggle="dropdown" aria-expanded="false">
+                <img id="CreateIcon" src="{% static 'images/outline_add_box_white_24dp.png' %}" /> 일정 생성
+            </button>
+            <!--</div>-->
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a id="myBtn" class="dropdown-item" href="#">일정 생성</a></li>
+                <li><a id="myBtn2" class="dropdown-item" href="#">메모 생성</a></li>
+            </ul>
+        </div>
+
+
+        <!-- 일정생성 모달 -->
+        <div id="myModal" class="modal">
+            <!-- 모달안 내용 -->
+            <div class="modal-mask">
+                <div class="modal-content">
+
+
+                    <!--제목과 textarea-->
                     <div>
-                        <select class="form-select weekSelect" aria-label="Default select example">
-                            <option selected value="0">일요일</option>
-                            <!--<option value="0">일요일</option>-->
-                            <option value="1">월요일</option>
-                            <option value="2">화요일</option>
-                            <option value="3">일요일</option>
-                            <option value="4">월요일</option>
-                            <option value="5">화요일</option>
-                            <option value="6">일요일</option>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
+                    </div>
+                    <div>
+                        <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                    </div>
+                    <div class="timeLabel">
+                        <a style="position : absolute; top:30px; left:27px;">요일</a>
+                        <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
+                        <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
+                    </div>
+
+                    <div style="align-item:center;" class="timeSelect">
+                        <div>
+                            <select class="form-select weekSelect" aria-label="Default select example">
+                                <option selected value="0">일요일</option>
+                                <!--<option value="0">일요일</option>-->
+                                <option value="1">월요일</option>
+                                <option value="2">화요일</option>
+                                <option value="3">일요일</option>
+                                <option value="4">월요일</option>
+                                <option value="5">화요일</option>
+                                <option value="6">일요일</option>
+                            </select>
+                        </div>
+                        <div>
+                            <!--<a id="startTimeSelectText">시작 시간</a>-->
+                            <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                        </div>
+                        <div>
+                            <!--<text id="endTimeSelectText">종료 시간</text>-->
+                            <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                        </div>
+                    </div>
+
+                    <div>
+                        <select class="form-select seasonSelect" aria-label="Default select example">
+                            <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
+                            <option value="2학기">2학기</option>
                         </select>
                     </div>
-                    <div>
-                        <!--<a id="startTimeSelectText">시작 시간</a>-->
-                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+
+                    <div style="margin : 0px 0px 15px 0px;">
+                        <a>반복 일정</a>
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        </label>
                     </div>
-                    <div>
-                        <!--<text id="endTimeSelectText">종료 시간</text>-->
-                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+
+                    <div class="modalButtons">
+                        <button id="modalCancel1" type="button" class="modalCancel btn btn-primary">취소</button>
+                        <button id="modalCreate1" type="button" class="modalCreate btn btn-primary">생성</button>
                     </div>
+
+
                 </div>
-                <div>
-                    <select class="form-select seasonSelect" aria-label="Default select example">
-                        <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
-                        <option value="2학기">2학기</option>
-                    </select>
-                </div>
-                <div style="margin : 0px 0px 15px 0px;">
-                    <a>반복 일정</a>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                    <label class="form-check-label" for="flexCheckDefault">
-                    </label>
-                </div>
-                <div class="modalButtons">
-                    <button id="modalCancel1" type="button" class="modalCancel btn btn-primary">취소</button>
-                    <button id="modalCreate1" type="button" class="modalCreate btn btn-primary">생성</button>
-                </div>
+                <!--modal-content-->
             </div>
-            <!--modal-content-->
+            <!--modal-mask-->
         </div>
-        <!--modal-mask-->
+        <!--modal-->
+
+        <!-- 메모생성 모달-->
+        <div id="myModal2" class="modal">
+            <!-- 모달안 내용 -->
+            <div class="modal-mask">
+                <div class="modal-memo-content">
+
+
+                    <!--제목과 textarea-->
+                    <div>
+                        <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
+                    </div>
+
+                    <div class="timeSelect">
+                        <div>
+                            <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
+                            <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
+                                <option selected value="0">일요일</option>
+                                <!--<option value="0">일요일</option>-->
+                                <option value="1">월요일</option>
+                                <option value="2">화요일</option>
+                                <option value="3">일요일</option>
+                                <option value="4">월요일</option>
+                                <option value="5">화요일</option>
+                                <option value="6">일요일</option>
+                            </select>
+                        </div>
+                        <div>
+                            <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
+                                시작 시간</text>
+                            <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+
+                        </div>
+                        <div>
+                            <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
+                                종료 시간</text>
+                            <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                        </div>
+                    </div>
+
+                    <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
+                        <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
+                        <button type="button" id="modalCreate2" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
+                    </div>
+
+
+                </div>
+                <!--modal-content-->
+            </div>
+            <!--modal-mask-->
+        </div>
+        <!--modal-->
+        <!-- 메모생성 모달-->
+
     </div>
-    <!--modal-->
-    <!-- 메모생성 모달-->
-    <div id="myModal2" class="modal">
-        <!-- 모달안 내용 -->
-        <div class="modal-mask">
-            <div class="modal-memo-content">
-                <!--제목과 textarea-->
-                <div>
-                    <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
-                </div>
-                <div class="timeSelect">
-                    <div>
-                        <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
-                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
-                            <option selected value="0">일요일</option>
-                            <!--<option value="0">일요일</option>-->
-                            <option value="1">월요일</option>
-                            <option value="2">화요일</option>
-                            <option value="3">일요일</option>
-                            <option value="4">월요일</option>
-                            <option value="5">화요일</option>
-                            <option value="6">일요일</option>
-                        </select>
-                    </div>
-                    <div>
-                        <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
-                        시작 시간</text>
-                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-                    </div>
-                    <div>
-                        <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
-                        종료 시간</text>
-                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-                    </div>
-                </div>
-                <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
-                    <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
-                    <button type="button" id="modalCreate2" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
-                </div>
-            </div>
-            <!--modal-content-->
-        </div>
-        <!--modal-mask-->
-    </div>
-    <!--modal-->
-    <!-- 메모생성 모달-->
-</div>
-<!--페이지 상단부분 끝-->
-<!-- 시간표 테이블, td은 시간대별 개수, td는 일주일이라 7개씩-->
-<table class="table table-bordered" style="margin : 1%; border: 1px hidden 1px hidden;">
-<tbody>
-<tr>
-    <th>
-         일요일
-    </th>
-    <th>
-         월요일
-    </th>
-    <th>
-         화요일
-    </th>
-    <th>
-         수요일
-    </th>
-    <th>
-         목요일
-    </th>
-    <th>
-         금요일
-    </th>
-    <th>
-         토요일
-    </th>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             06:00
-        </p>
-        <button type="button" class="btn btn-secondary">
-        <div class="d-flex bd-highlight">
-            <div class="p-2 flex-grow-1 bd-highlight">
-                 테스트
-            </div>
-            <div class="p=2 bd-highlight showSeason">
-                 n학기
-            </div>
-        </div>
-        </button>
-        <div class="dailyContent">
-            <div class="dailyContent-1">
-                <div class="btn-group dcDropdown dropdown">
-                    <button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-toggle="dropdown" aria-expanded="false">
-                    <img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}"/>
+    <!--페이지 상단부분 끝-->
+
+
+
+
+
+    <!-- 시간표 테이블, td은 시간대별 개수, td는 일주일이라 7개씩-->
+    <table class="table table-bordered" style="margin : 1%; border: 1px hidden 1px hidden;">
+        <tbody>
+            <tr>
+                <th>일요일</th>
+                <th>월요일</th>
+                <th>화요일</th>
+                <th>수요일</th>
+                <th>목요일</th>
+                <th>금요일</th>
+                <th>토요일</th>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">06:00</p>
+                    <button type="button" class="btn btn-secondary dailyContentButton">
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">테스트</div>
+                            <div class="p=2 bd-highlight showSeason">n학기</div>
+                        </div>
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="swal('정말 삭제하시겠습니까?',{buttons: {cancel: true, confirm: true,},});">삭제</a></li>
-                        <li><a class="dropdown-item" href="#">공유</a></li>
-                    </ul>
-                </div>
-                <!-- 생성한 모달 수정 -->
-                <div id="myModalModify" class="modal">
-                    <!-- 모달안 내용 -->
-                    <div class="modal-mask">
-                        <div class="modal-content">
-                            <!--제목과 textarea-->
-                            <div>
-                                <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="일정 제목">
+                    <div class="dailyContent">
+                        <div class="dailyContent-1">
+                            <div class="btn-group dcDropdown dropdown">
+                                <button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" />
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="swal('정말 삭제하시겠습니까?',{buttons: {cancel: true, confirm: true,},});">삭제</a></li>
+                                    <li><a class="dropdown-item" href="#">공유</a></li>
+                                </ul>
                             </div>
-                            <div>
-                                <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
-                            </div>
-                            <div class="timeLabel">
-                                <a style="position : absolute; top:30px; left:27px;">요일</a>
-                                <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
-                                <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
-                            </div>
-                            <div style="align-item:center;" class="timeSelect">
-                                <div>
-                                    <!--<a>요일</a>-->
-                                    <select class="form-select weekSelect" aria-label="Default select example">
-                                        <option selected value="0">일요일</option>
-                                        <!--<option value="0">일요일</option>-->
-                                        <option value="1">월요일</option>
-                                        <option value="2">화요일</option>
-                                        <option value="3">일요일</option>
-                                        <option value="4">월요일</option>
-                                        <option value="5">화요일</option>
-                                        <option value="6">일요일</option>
-                                    </select>
+
+                            <!-- 생성한 모달 수정 -->
+                            <div id="myModalModify" class="modal">
+                                <!-- 모달안 내용 -->
+                                <div class="modal-mask">
+                                    <div class="modal-content">
+
+
+                                        <!--제목과 textarea-->
+                                        <div>
+                                            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="일정 제목">
+                                        </div>
+                                        <div>
+                                            <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                                        </div>
+                                        <div class="timeLabel">
+                                            <a style="position : absolute; top:30px; left:27px;">요일</a>
+                                            <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
+                                            <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
+                                        </div>
+
+                                        <div style="align-item:center;" class="timeSelect">
+                                            <div>
+                                                <!--<a>요일</a>-->
+                                                <select class="form-select weekSelect" aria-label="Default select example">
+                                                    <option selected value="0">일요일</option>
+                                                    <!--<option value="0">일요일</option>-->
+                                                    <option value="1">월요일</option>
+                                                    <option value="2">화요일</option>
+                                                    <option value="3">일요일</option>
+                                                    <option value="4">월요일</option>
+                                                    <option value="5">화요일</option>
+                                                    <option value="6">일요일</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <!--<a id="startTimeSelectText">시작 시간</a>-->
+                                                <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                                            </div>
+                                            <div>
+                                                <!--<text id="endTimeSelectText">종료 시간</text>-->
+                                                <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <select class="form-select seasonSelect" aria-label="Default select example">
+                                                <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
+                                                <option value="2학기">2학기</option>
+                                            </select>
+                                        </div>
+
+                                        <div style="margin : 0px 0px 15px 0px;">
+                                            <a style="color : black;">반복 일정</a>
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                            </label>
+                                        </div>
+
+                                        <div class="modalButtons">
+                                            <button id="modalCancelModify" type="button" class="modalCancel btn btn-primary">취소</button>
+                                            <button id="modalModify" type="button" class="modalCreate btn btn-primary">수정</button>
+                                        </div>
+                                    </div>
+                                    <!--modal-content-->
                                 </div>
-                                <div>
-                                    <!--<a id="startTimeSelectText">시작 시간</a>-->
-                                    <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
-                                </div>
-                                <div>
-                                    <!--<text id="endTimeSelectText">종료 시간</text>-->
-                                    <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
-                                </div>
+                                <!--modal-mask-->
                             </div>
+                            <!--modal modify-->
+
+
+
+
                             <div>
-                                <select class="form-select seasonSelect" aria-label="Default select example">
-                                    <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
-                                    <option value="2학기">2학기</option>
-                                </select>
-                            </div>
-                            <div style="margin : 0px 0px 15px 0px;">
-                                <a style="color : black;">반복 일정</a>
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                </label>
-                            </div>
-                            <div class="modalButtons">
-                                <button id="modalCancelModify" type="button" class="modalCancel btn btn-primary">취소</button>
-                                <button id="modalModify" type="button" class="modalCreate btn btn-primary">수정</button>
+                                <p class="dailyContentTitle">
+                                    C++ 심화
+                                </p>
+                                <p class="dailyContentBody">
+                                    응기잇
+                                </p>
                             </div>
                         </div>
-                        <!--modal-content-->
+                        <div class="dailyContent-2">
+                            <p class="dailyContentShowSeason">
+                                1학기
+                            </p>
+                            <p class="dailyContentShowRepeat">
+                                일요일 06:00 반복
+                            </p>
+                        </div>
                     </div>
-                    <!--modal-mask-->
-                </div>
-                <!--modal modify-->
-                <div>
-                    <p class="dailyContentTitle">
-                         C++ 심화
-                    </p>
-                    <p class="dailyContentBody">
-                         응기잇
-                    </p>
-                </div>
-            </div>
-            <div class="dailyContent-2">
-                <p class="dailyContentShowSeason">
-                     1학기
-                </p>
-                <p class="dailyContentShowRepeat">
-                     일요일 06:00 반복
-                </p>
-            </div>
-        </div>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             07:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             08:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             09:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             10:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             11:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             12:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             13:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             14:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             15:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             16:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             17:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             19:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             20:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             21:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             22:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             23:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             00:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             01:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             02:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             03:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             04:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-<tr>
-    <td>
-        <p class="timeShow">
-             05:00
-        </p>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-    <td>
-    </td>
-</tr>
-</tbody>
-</table>
+
+
+                </td>
+                <td>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <!-- 공유받은 일정 테스트 -->
+                    <button type="button" class="btn btn-secondary dailyContentButtonShared">
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">테스트</div>
+                            <div class="p=2 bd-highlight showSeason">n학기</div>
+                        </div>
+                    </button>
+                    <div class="sharedDailyContent">
+                        <div class="sharedDailyContent-1">
+                            <div class="btn-group dcDropdown dropdown">
+                                <button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" />
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" onclick="swal('정말 삭제하시겠습니까?',{buttons: {cancel: true, confirm: true,},});">삭제</a></li>
+                                </ul>
+                            </div>
+
+
+                            <div>
+                                <p class="sharedDailyContentTitle">
+                                    공유받은 일정
+                                </p>
+                                <p class="sharedDailyContentUser">
+                                    곽정민
+                                </p>
+                                <p class="sharedDailyContentBody">
+                                    응기잇
+                                </p>
+                            </div>
+                        </div>
+                        <div class="sharedDailyContent-2">
+                            <p class="sharedDailyContentShowSeason">
+                                1학기
+                            </p>
+                            <p class="sharedDailyContentShowRepeat">
+                                일요일 06:00 반복
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">07:00</p>
+
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button type="button" class="btn btn-secondary memoButton">
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 flex-grow-1 bd-highlight">메모를 입력해보았다</div>
+                            <div class="p=2 bd-highlight showMemo">메모</div>
+                        </div>
+                    </button>
+                    <div class="memoContent">
+                        <div class="memoContent-1">
+                            <div class="btn-group dcDropdown dropdown">
+                                <button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" />
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" id="myBtn4">수정</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="swal('정말 삭제하시겠습니까?',{buttons: {cancel: true, confirm: true,},});">삭제</a></li>
+                                    <li><a class="dropdown-item" href="#">공유</a></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <p class="memoContentTitle">
+                                    메모
+                                </p>
+                                <p class="memoContentBody">
+                                    응기잇
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">08:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">09:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">10:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">11:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">12:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">13:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">14:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">15:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">16:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">17:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">19:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">20:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">21:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="timeShow">22:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">23:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">00:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">01:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">02:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">03:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">04:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="timeShow">05:00</p>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
 </body>

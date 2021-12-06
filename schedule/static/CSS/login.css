@@ -1,4 +1,4 @@
-body{
+body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@ body{
 }
 
 
-.wrapper{
+.wrapper {
     width: 400px;
     height: 520px;
     border-Radius: 24px;
@@ -24,18 +24,18 @@ body{
     text-align: center;
 }
 
-.unamewrap{
+.unamewrap {
     padding-bottom: 10px;
     margin: 0px;
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
     width: 300px;
     height: 45px;
     border: none;
     box-shadow: #ADADAD 0px 2px 0px;
 }
 
-.signin{
-    color:#5F26FF;
+.signin {
+    color: #5F26FF;
     width: 340px;
     height: 56px;
     font-family: Playfair Display;
@@ -43,15 +43,15 @@ body{
     font-weight: bold;
     font-size: 48px;
     line-height: 56px;
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-feature-settings: 'pnum'on, 'lnum'on;
     align-self: stretch;
     flex-grow: 0;
     margin: 12px 0px;
     text-align: left;
 }
 
-.login{
-    color:#ADADAD;
+.login {
+    color: #ADADAD;
     width: 340px;
     height: 24px;
     top: 68px;
@@ -60,27 +60,27 @@ body{
     font-weight: bold;
     font-size: 16px;
     line-height: 24px;
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-feature-settings: 'pnum'on, 'lnum'on;
     align-self: stretch;
     flex-grow: 0;
     margin: 12px 0px;
     text-align: left;
 }
 
-.uname{
+.uname {
     padding-left: 20px;
     width: 100%;
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
     border: none;
 }
 
-.p{
+.p {
     padding: 0px;
     margin: 0px;
     text-align: left;
 }
 
-.uname:focus{
+.uname:focus {
     padding-left: 12px;
     width: 90%;
     outline: none;
@@ -90,25 +90,25 @@ body{
 
 
 
-.pw{
+.pw {
     background-color: #FFFFFF;
-    width:265px;
-    height:10px;
+    width: 265px;
+    height: 10px;
     border: none;
     box-shadow: #ADADAD 0px 2px 0px;
     padding: 20px;
 }
 
-.sm{
+.sm {
     background: #5F26FF;
     color: #FFFFFF;
     width: 300px;
     height: 50px;
     border-radius: 5px;
-    border:none;
+    border: none;
 }
 
-.dv{
+.dv {
     width: 300px;
     height: 2px;
     border: 0;
@@ -117,7 +117,7 @@ body{
     background-color: #E0E0E0;
 }
 
-.reb{
+.reb {
     background: #FFFFFF;
     color: #5F26FF;
     width: 300px;
@@ -127,7 +127,7 @@ body{
     font-weight: bold;
 }
 
-.lb{
+.lb {
     visibility: collapse;
     margin: 0px;
     padding-bottom: 10px;
@@ -136,13 +136,13 @@ body{
     font-style: normal;
     font-size: 8px;
     font-weight: bold;
-    color:red;
+    color: red;
 }
 
-.warn2{
+.warn2 {
     padding-bottom: 10px;
     margin: 0px;
-    background-color:#ffebeb;
+    background-color: #ffebeb;
     width: 300px;
     height: 45px;
     border: none;
@@ -150,14 +150,14 @@ body{
 }
 
 
-.warn{
+.warn {
     padding-left: 10px;
     width: 90%;
-    background-color:#ffebeb;
+    background-color: #ffebeb;
     border: none;
 }
 
-.unamewrap:focus-within{
+.unamewrap:focus-within {
     background-color: #e7dfff;
     box-shadow: #5f26ff 0px 2px 0px;
 }

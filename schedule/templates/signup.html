@@ -11,46 +11,45 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 <script src="{% static 'JS/jquery-3.6.0.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'JS/signup.js' %}"></script>
 <script>
         $(document).ready(()=>{
             $('.sm').click(()=>{ actLogin(); return false;});
-            $('.reb').click(()=>{ location.href=("./signup");});
-            $('.uname').click(()=>{
-            $('#unamewrap').css('backgroundColor', "#E7DFFF")});
+            $('.login').click(()=>{ location.href=("./signin");});
         });
     </script>
 </head>
-<body>
-<div class="wrapper">
-	<span class="reg">Register</span>
-	<span class="kreg">회원 가입</span>
-	<form method="POST" action="/login" novalidate>
-		<div class="d_email warn_div_id">
-			<p class="p_email">
-				<label class="l_email">이미 존재하는 이메일입니다.</label>
-			</p>
-			<input type="text" name="username" class="Email warn_input_id" placeholder="Email" id="mid" required>
-		</div>
-		<br>
-		<div class="d_pw warn_div_pw">
-			<p class="p_pw">
-				<label class="l_pw">양식에 맞지 않는 비밀번호입니다.</label>
-			</p>
-			<input type="password" name="password" class="password warn_input_pw" placeholder="비밀번호" id="pw" required>
-		</div>
-		<br>
-		<div class="d_pw2 warn_div_pw2">
-			<p class="p_pw2">
-				<label class="l_pw2">비밀번호가 일치하지 않습니다.</label>
-			</p>
-			<input type="password" name="password" class="password2 warn_input_pw2" placeholder="비밀번호 확인" id="rpw" required>
-		</div>
-		<br>
-		<br>
-		<input type="submit" value="회원 가입" class="regb">
-		<hr class="dv">
-		<button type="button" class="login">로그인</button>
-	</form>
-</div>
+<body onload="init()">
+    <div class="wrapper">
+        <span class="reg">Register</span>
+        <span class="kreg">회원 가입</span>
+        <form method="POST" action="" novalidate>
+            <div class="d_email warn_div_id">
+                <p class="p_email">
+                    <label class="l_email">이미 존재하는 이메일입니다.</label>
+                </p>
+                <input type="text" name="username" class="Email warn_input_id" placeholder="Email" id="mid" required>
+            </div>
+            <br>
+            <div class="d_pw warn_div_pw">
+                <p class="p_pw">
+                    <label class="l_pw">양식에 맞지 않는 비밀번호입니다.</label>
+                </p>
+                <input type="password" name="password"class="password warn_input_pw" placeholder="비밀번호" id="pw" required>
+            </div>
+            <br>
+            <div class="d_pw2 warn_div_pw2">
+                <p class="p_pw2">
+                    <label class="l_pw2">비밀번호가 일치하지 않습니다.</label>
+                </p>
+                <input type="password" name="password"class="password2 warn_input_pw2" placeholder="비밀번호 확인" id="rpw" required>
+            </div>
+            <br>
+            <br>
+            <input type="submit" value="회원 가입" class="regb" id="regb">
+            <hr class="dv">
+            <button type="button" class="login">로그인</button>
+        </form>
+    </div>
 </body>
 </html>
