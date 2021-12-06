@@ -11,12 +11,21 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">    
+	<script>
+        $(document).ready(()=>{
+				            $('.sm').click(()=>{ actLogin(); return false;});
+				            $('.reb').click(()=>{ location.href=("./signup.html");});
+				$('.uname').click(()=>{
+							    $('#unamewrap').css('backgroundColor', "#E7DFFF")});
+				        });
+
+	</script>
 </head>
 <body>
     <div class="wrapper">
         <span class="reg">Register</span>
         <span class="kreg">회원 가입</span>
-        <form method="POST" action="{% url 'signup' %}" novalidate>
+        <form method="POST" action="/login" novalidate>
             <div class="d_email warn_div_id">
                 <p class="p_email">
                     <label class="l_email">이미 존재하는 이메일입니다.</label>
