@@ -1121,6 +1121,8 @@
                 modal4.style.display = "none";
             }
 
+            $('#logout').click(()=>{setCookie("token", "1", "-1")});
+
         });
     </script>
 
@@ -1129,7 +1131,8 @@
 <body style="font-family : 'Pretendard' ">
     <!-- 페이지 상단부분-->
     <div class="d-flex justify-content-around">
-        <div><h1 id='title' style='display: inline;'></h1><h1>의 시간표</h1></div>
+        <div><h1 id='title' style='display: inline;'></h1><h1 style='display: inline;'>의 시간표</h1></div>
+        <button id="logout">logout</button>
         <table></table>
         <table></table>
         <table></table>
