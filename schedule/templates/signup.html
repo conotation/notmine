@@ -14,51 +14,56 @@
 <script src="{% static 'JS/signup.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 <script>
-        $(document).ready(()=>{
-            $('.sm').click(()=>{ actLogin(); return false;});
-            $('.login').click(()=>{ location.href=("./signin");});
-            $('#regb').click(actSignUp());
+    $(document).ready(() => {
+        $('.login').click(() => {
+            location.href = ("./signin");
         });
-
-        actSignUp = () => {
+        $('#regb').click(()=> {actSignUp(); return false;});
+    });
+    
+    function actSignUp(){
         var id = $('#mid').val().trim()
         var pw = $('#pw').val().trim()
         var rpw = $('#rpw').val().trim()
-
-        if(id.length == 0) {
+    
+        if (id.length == 0) {
             $('.uname').focus();
-            $('.uname').attr("class","warn");
+            $('.uname').attr("class", "warn");
             alert("아이디를 입력하세요.")
             return false;
         } else if (pw.length == 0) {
             $('.pw').focus();
-
+    
             alert("비밀번호를 입력하세요.")
             return false;
         }
-        if(pw!=rpw){
+        if (pw != rpw) {
             alert("비밀번호가 서로 일치하지 않습니다.");
             return false;
         }
-        var dData = {"id": id, "pw": sha256(pw) }; //sha256(pw)}
+        var dData = {
+            "id": id,
+            "pw": sha256(pw)
+        }; //sha256(pw)}
         $.ajax({
             type: "POST",
             url: "http://conota.cf/register",
             data: dData,
             success: (res) => {
                 console.log('성공 ' + JSON.stringify(res))
-                if(res.message=='auth failed') {
+                if (res.message == 'auth failed') {
                     console.log('회원가입 실패');
                     return false;
                 }
                 alert("회원가입 성공");
                 location.href = '/schedule/login';
-            }, error: (req, stat, err) => {
+            },
+            error: (req, stat, err) => {
                 console.log('실패');
             }
         });
     }
-    </script>
+</script>
 </head>
 <body onload="init()">
     <div class="wrapper">
