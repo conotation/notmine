@@ -1121,7 +1121,7 @@
                 modal4.style.display = "none";
             }
 
-            $('#logout').click(()=>{setCookie("token", "session del", -1);console.log('session del');});
+            //$('#logout').click(()=>{setCookie("token", "session del", -1);console.log('session del');});
 
         });
     </script>
@@ -1132,7 +1132,7 @@
     <!-- 페이지 상단부분-->
     <div class="d-flex justify-content-around">
         <div><h1 id='title' style='display: inline;'></h1><h1 style='display: inline;'>의 시간표</h1></div>
-        <button id="logout">logout</button>
+        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1)">logout</button>
         <table></table>
         <table></table>
         <table></table>
