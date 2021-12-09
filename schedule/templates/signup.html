@@ -12,18 +12,59 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 <script src="{% static 'JS/jquery-3.6.0.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'JS/signup.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" crossorigin="anonymous"></script>
 <script>
         $(document).ready(()=>{
             $('.sm').click(()=>{ actLogin(); return false;});
             $('.login').click(()=>{ location.href=("./signin");});
+            $('#regb').click(actSignUp());
         });
+
+        actSignUp = () => {
+        var id = $('#mid').val().trim()
+        var pw = $('#pw').val().trim()
+        var rpw = $('#rpw').val().trim()
+
+        if(id.length == 0) {
+            $('.uname').focus();
+            $('.uname').attr("class","warn");
+            alert("아이디를 입력하세요.")
+            return false;
+        } else if (pw.length == 0) {
+            $('.pw').focus();
+
+            alert("비밀번호를 입력하세요.")
+            return false;
+        }
+        if(pw!=rpw){
+            alert("비밀번호가 서로 일치하지 않습니다.");
+            return false;
+        }
+        var dData = {"id": id, "pw": sha256(pw) }; //sha256(pw)}
+        $.ajax({
+            type: "POST",
+            url: "http://conota.cf/register",
+            data: dData,
+            success: (res) => {
+                console.log('성공 ' + JSON.stringify(res))
+                if(res.message=='auth failed') {
+                    console.log('회원가입 실패');
+                    return false;
+                }
+                alert("회원가입 성공");
+                location.href = '/schedule/login';
+            }, error: (req, stat, err) => {
+                console.log('실패');
+            }
+        });
+    }
     </script>
 </head>
 <body onload="init()">
     <div class="wrapper">
         <span class="reg">Register</span>
         <span class="kreg">회원 가입</span>
-        <form method="POST" action="" novalidate>
+        <form method="POST" onsubmit="return false;" novalidate>
             <div class="d_email warn_div_id">
                 <p class="p_email">
                     <label class="l_email">이미 존재하는 이메일입니다.</label>

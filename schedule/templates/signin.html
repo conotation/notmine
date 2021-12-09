@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
 <script src="{% static 'JS/jquery-3.6.0.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'JS/login.js' %}" ></script>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.js" crossorigin="anonymous"></script>
 <script>
     var setCookie = (name, value, exp) => {
         var date = new Date();
@@ -37,7 +38,7 @@
             alert("비밀번호를 입력하세요.")
             return false;
         }
-        var dData = {"id": id, "pw": pw }; //sha256(pw)}
+        var dData = {"id": id, "pw": sha256(pw) }; //sha256(pw)}
         $.ajax({
             type: "POST",
             url: "http://conota.cf/login",

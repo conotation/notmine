@@ -1022,6 +1022,12 @@
             return cookieValue;
         }
 
+        var setCookie = (name, value, exp) => {
+            var date = new Date();
+            date.setTime(date.getTime() + exp*24*60*60*1000);
+            document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        };
+
         if (getCookie('token') == null)
             console.log('session expired');
 
@@ -1123,7 +1129,7 @@
 <body style="font-family : 'Pretendard' ">
     <!-- 페이지 상단부분-->
     <div class="d-flex justify-content-around">
-        <h1 id='title'>의 시간표</h1>
+        <div><h1 id='title' style='display: inline;'></h1><h1>의 시간표</h1></div>
         <table></table>
         <table></table>
         <table></table>
@@ -1149,7 +1155,6 @@
             <!-- 모달안 내용 -->
             <div class="modal-mask">
                 <div class="modal-content">
-
 
                     <!--제목과 textarea-->
                     <div>
@@ -1304,14 +1309,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="
-                          swal('정말 삭제하시겠습니까?',
-                          {
-                          buttons: {cancel: true, confirm: true,},
-                          customClass : 'contentDelete'
-                          });">삭제</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick=" swal('공유할 상대방의 이름을 적어주세요 ', {
-                            customClass : 'contentSharing',
+                                    <li><a class="dropdown-item" href="#" onclick="swal('정말 삭제하시겠습니까?',{buttons: {cancel: true, confirm: true,},customClass : 'contentDelete'});">삭제</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="swal('공유할 상대방의 이름을 적어주세요 ', {customClass : 'contentSharing',
                             content : 'input',
                             buttons : ['취소', '공유'],
                             placeholder : '상대방 이름',
