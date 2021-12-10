@@ -13,3 +13,6 @@ def signin(req):
 
 def signup(req):
     return render(req, 'signup.html')
+
+def st(req):
+    return render(req, 'schedule2.html')
