@@ -1301,7 +1301,7 @@
     <script>
         time = ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00", "01", "02", "03", "04", "05"];
         var dData = {
-            "user": getCookie(atob('token'))
+            "user": atob(getCookie('token'))
         }; //sha256(pw)}
         $.ajax({
             type: "POST",
