@@ -63,14 +63,34 @@
                 modal1.style.display = "none";
             }
 
-             /*
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal1) {
-                    modal1.style.display = "none";
+            $('#modalCreate1').click(()=>{
+                var makeSche = {
+                    "user": atob(getCookie('token')),
+                    "day": $("#create_sche_day").val(),
+                    "start": $("#create_sche_start").val(),
+                    "end": $("#create_sche_end").val(),
+                    "seme": $("#create_sche_seme").val(),
+                    "title": $("#create_sche_title").val(),
+                    "content": $("#create_sche_content").val(),
+                    "share": 'off'
                 }
-            }
-            */
+                $.ajax({
+                    type: "POST",
+                    url: "http://conota.cf/sche",
+                    data: makeSche,
+                    success: (res) => {
+                        console.log("성공 " + JSON.stringify(res));
+                        if(res.success == false){
+                            console.log('생성 실패');
+                            return false;
+                        }
+                        else location.reload();
+                    }, error: (req, stat, err) => {
+                        console.log('실패');
+                    }
+                })
+            });
+
 
             // Get the modal 메모생성
             var modal2 = document.getElementById('myModal2');
@@ -86,14 +106,7 @@
             span2.onclick = function() {
                 modal2.style.display = "none";
             }
-            /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal2.style.display = "none";
-                }
-            }
-            */
+            
             /*
             // modal 수정
             var modal3 = document.getElementById('myModalModify');
@@ -137,8 +150,10 @@
                 modal4.style.display = "none";
             }
             */
-            //$('#logout').click(()=>{setCookie("token", "session del", -1);console.log('session del');});
             firstInit();
+
+            dateInit();
+
         });
 
         String.prototype.format = function() {
@@ -164,11 +179,69 @@
                 scheInit(memo);
                 return false;
             },
-            error: (req, stat, err) => {
+                error: (req, stat, err) => {
                 console.log('실패');
+                }
+            });
+        }
+
+        dateInit = () => {
+        var value = [];
+     
+        var currentDay = new Date();  
+        var theYear = currentDay.getFullYear();
+        var theMonth = Number(currentDay.getMonth()) + 1;
+        var theDate  = Number(currentDay.getDate());
+        var theDay  = Number(currentDay.getDay());
+     
+        var newYear, newMonth, newDate;
+     
+        var nowLast = new Date ();
+            nowLast.setMonth(nowLast.getMonth() + 1);
+        var nowLastDay = new Date( nowLast.getYear(), nowLast.getMonth(), "");
+            nowLastDay = nowLastDay.getDate();
+     
+        var lastDay; // 이전 달 마지막날 파악
+     
+        for (var i = -theDay; i < (theDay-7)*-1; i++){
+            newYear = theYear;
+            newDate = theDate;
+            newMonth = theMonth;
+            if(theDate+i < 1){
+                if(theMonth == 1){ // 1월 첫째주 일때
+                    lastDay = new Date(Number(currentDay.getFullYear())-1, Number(currentDay.getMonth())+12, "");
+                } else { // 1월 첫째주가 아닐때
+                    lastDay = new Date(currentDay.getFullYear(), currentDay.getMonth(), "");
+                }
+     
+                newYear = lastDay.getFullYear();
+                newMonth = lastDay.getMonth();
+                newDate = Number(lastDay.getDate())+i;
+     
+            } else if( theDate+i > nowLastDay) {
+                if(theMonth == 12){ // 12월 마지막주 일때
+                    newYear = Number(theYear) + 1;
+                }
+                newMonth = Number(theMonth) + 1;
+                newDate = i;
             }
-        });
+            newDate = (newDate + i);
+            // yyyy-mm-dd 형식으로
+            if(String(newDate).length < 2){
+                newDate = "0" + String(newDate);
+            }
+            if(String(newMonth).length < 2){
+                newMonth = "0" + String(newMonth);
+            }
+            //이번주 7일의 날짜를 value에 담는다.
+            value.push(newYear + "-" + newMonth + "-" + newDate);
+        }
+
+        for(var i = 0; i<7; i++){
+            $("#d"+i).append("<br><tag style='font-size:16px;color:#999'>{0}</tag>".format(value[i]));
+        }
     }
+
 
         var count = 0;
 
@@ -180,6 +253,7 @@
             }, 0);
             count = count + 1
         });
+
     </script>
 
 </head>
@@ -245,10 +319,10 @@
 
                 <!--제목과 textarea-->
                 <div>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목" id="create_sche_title">
                 </div>
                 <div>
-                    <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                    <textarea class="form-control modalTextArea" placeholder="일정 내용" id="create_sche_content"></textarea>
                 </div>
                 <div class="timeLabel">
                     <a style="position : absolute; top:30px; left:27px;">요일</a>
@@ -258,7 +332,7 @@
 
                 <div style="align-item:center;" class="timeSelect">
                     <div>
-                        <select class="form-select weekSelect" aria-label="Default select example">
+                        <select class="form-select weekSelect" aria-label="Default select example" id="create_sche_day">
                             <option selected value="0">일요일</option>
                             <!--<option value="0">일요일</option>-->
                             <option value="1">월요일</option>
@@ -271,18 +345,18 @@
                     </div>
                     <div>
                         <!--<a id="startTimeSelectText">시작 시간</a>-->
-                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black" id="create_sche_start">
                     </div>
                     <div>
                         <!--<text id="endTimeSelectText">종료 시간</text>-->
-                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black" id="create_sche_end">
                     </div>
                 </div>
 
                 <div>
-                    <select class="form-select seasonSelect" aria-label="Default select example">
-                        <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
-                        <option value="2학기">2학기</option>
+                    <select class="form-select seasonSelect" aria-label="Default select example" id="create_sche_seme">
+                        <option selected class="seasonTimeSelectText" value="0">1학기</option>
+                        <option value="1">2학기</option>
                     </select>
                 </div>
 
@@ -469,13 +543,13 @@
     <table class="table table-bordered" style="margin : 1%; border: 1px hidden 1px hidden;">
         <tbody id="stbody">
             <tr>
-                <th>일요일</th>
-                <th>월요일</th>
-                <th>화요일</th>
-                <th>수요일</th>
-                <th>목요일</th>
-                <th>금요일</th>
-                <th>토요일</th>
+                <th id='d0'>일요일</th>
+                <th id='d1'>월요일</th>
+                <th id='d2'>화요일</th>
+                <th id='d3'>수요일</th>
+                <th id='d4'>목요일</th>
+                <th id='d5'>금요일</th>
+                <th id='d6'>토요일</th>
             </tr>
 
 <script>
@@ -485,6 +559,7 @@
     }; //sha256(pw)}
     var memo = "";
 
+    
 
     scheInit = () => {
         data = "<tr>";
@@ -505,7 +580,7 @@
 
             for(var j = 0; j<dMemo[i].length-0; j++){
                 var tmp = dMemo[i][j];
-                data = data + '<button type="button" class="btn btn-secondary memoButton" style="margin-bottom:12px;" onclick="$(\'#m_no{0}\').css(\'visibility\', $(\'#m_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showMemo"></div></div></button><div class="memoContent" style="visibility:visible;" id="m_no{3}"><div class="memoContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn4">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: { cancel : true, confirm : true,},customClass : \'contentDelete\',});">삭제</a></li><li><a class="dropdown-item" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',});" href="#">공유</a></li></ul></div><div><p class="memoContentTitle"></p><p class="memoContentBody">{4}</p></div></div></div>'.format(tmp['m_no'],tmp['m_no'],tmp['m_content'].substr(0,5).concat("..."), tmp['m_no'], tmp['m_content'])
+                data = data + '<button type="button" class="btn btn-secondary memoButton" style="margin-bottom:12px;" onclick="$(\'#m_no{0}\').css(\'visibility\', $(\'#m_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showMemo"></div></div></button><div class="memoContent" style="visibility:hidden;" id="m_no{3}"><div class="memoContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn4">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: { cancel : true, confirm : true,},customClass : \'contentDelete\',});">삭제</a></li><li><a class="dropdown-item" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',});" href="#">공유</a></li></ul></div><div><p class="memoContentTitle"></p><p class="memoContentBody">{4}</p></div></div></div>'.format(tmp['m_no'],tmp['m_no'],tmp['m_content'].substr(0,5).concat("..."), tmp['m_no'], tmp['m_content'])
             }
             data = data + "</td>";
         } data = data + "</tr>";
@@ -514,7 +589,7 @@
             for (var j = 0; j < 7; j++) {
                 data = data + "<td>";
                 if(j==0)
-                    data = data + "<p class='timeShow'>{0}</p>".format(time[i]);
+                    data = data + "<p class='timeShow'>{0}</p>".format(time[i] +":00");
 
                 data = data + "</td>";
             }
