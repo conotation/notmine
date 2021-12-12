@@ -72,6 +72,7 @@ body {
     width: 100%;
     background-color: #FFFFFF;
     border: none;
+    color: black;
 }
 
 .p {
@@ -80,13 +81,13 @@ body {
     text-align: left;
 }
 
-.uname:focus {
+/*.uname:focus {
     padding-left: 12px;
     width: 90%;
     outline: none;
     background-color: #e7dfff;
     color: #5f26ff;
-}
+}*/
 
 
 
@@ -128,7 +129,6 @@ body {
 }
 
 .lb {
-    visibility: collapse;
     margin: 0px;
     padding-bottom: 10px;
     padding-left: 20px;
@@ -157,7 +157,7 @@ body {
     border: none;
 }
 
-.unamewrap:focus-within {
+/*.unamewrap:focus-within {
     background-color: #e7dfff;
     box-shadow: #5f26ff 0px 2px 0px;
-}
+}*/

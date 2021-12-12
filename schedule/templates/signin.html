@@ -30,7 +30,8 @@
         var pw = $('#pw').val().trim()
         if(id.length == 0) {
             $('.uname').focus();
-            $('.uname').attr("class","warn");
+            $('.uname').addClass("class","warn");
+            $('.unamewrap').addClass("class", "warn2");
             alert("아이디를 입력하세요.")
             return false;
         } else if (pw.length == 0) {
@@ -47,6 +48,12 @@
                 console.log('성공 ' + JSON.stringify(res))
                 if(res.message=='auth failed') {
                     console.log('로그인 실패');
+                    warnon=true;
+                    $('.uname').addClass("class","warn");
+                    $('.unamewrap').addClass("class", "warn2");
+                    lb.style.visibility="visible";
+                    $('.uname').focus();
+
                     return false;
                 }
                 setCookie('token', res.token, 30);
@@ -66,7 +73,7 @@
         <form method="POST" onsubmit="return false;" novalidate>
             <div class="unamewrap" id="unamewrap">
                 <P class="p">
-                    <label class="lb">가입하지 않은 이메일입니다.</label>
+                    <label class="lb" id="lb">가입하지 않은 이메일입니다.</label>
                 </P>
                 <input name="username" type="text" class="uname" id="uname" placeholder="Email" required>
             </div>

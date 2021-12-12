@@ -130,8 +130,8 @@
 
         /* modal mask */
         .modal-mask {
-            position: fixed;
-            z-index: 9998;
+            position: static;
+            z-index: 922;
             top: 0;
             left: 0;
             width: 100%;
@@ -730,7 +730,7 @@
             position: absolute;
 
             box-shadow: 3px 3px 3px 3px rgb(0, 0, 0, .25);
-            z-index: 10;
+            z-index: 5;
         }
 
         /* 일정 내용의 타이틀 */
@@ -794,7 +794,7 @@
             position: absolute;
 
             box-shadow: 3px 3px 3px 3px rgb(0, 0, 0, .25);
-            z-index: 10;
+            z-index: 0;
         }
 
         /* 일정 내용의 타이틀 */
@@ -990,7 +990,7 @@
 
             padding: 10px;
 
-            z-index: 2;
+            z-index: 0;
 
             color: #FFFFFF;
 
@@ -1006,6 +1006,17 @@
         .memoContentBody {
             font-weight: normal;
 
+        }
+
+        /* 로그아웃 버튼 */
+
+        #logout {
+            color: #8A2BE2;
+            border-color: #8A2BE2;
+            box-shadow: initial;
+
+            margin-right: 150px;
+            width: 130px;
         }
     </style>
 
@@ -1024,7 +1035,7 @@
 
         var setCookie = (name, value, exp) => {
             var date = new Date();
-            date.setTime(date.getTime() + exp*24*60*60*1000);
+            date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
             document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
         };
 
@@ -1124,15 +1135,280 @@
             //$('#logout').click(()=>{setCookie("token", "session del", -1);console.log('session del');});
 
         });
+
+
+
+        var count = 0;
+
+        $(document).on('.modal', function() {
+            var zindex = 1040 + (10 * count);
+            $(this).css('z-index', zindex);
+            setTimeout(function() {
+                $('.modal-mask').not('.modal-stack').css('z-index'.zindex - 1).addClass('modal-stack');
+            }, 0);
+            count = count + 1
+        });
     </script>
 
 </head>
 
+
 <body style="font-family : 'Pretendard' ">
+
+
+    <!-- 메모 수정 모달-->
+    <div id="myMemoModify" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-memo-content">
+
+
+                <!--제목과 textarea-->
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
+                </div>
+
+                <div class="timeSelect">
+                    <div>
+                        <a style="color : #000000; position : static; padding:0px 0px 0px 20px;">요일</a>
+                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <text id="startTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px; margin-left:15px;">
+                            시작 시간</text>
+                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+
+                    </div>
+                    <div>
+                        <text id="endTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px;">
+                            종료 시간</text>
+                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                    </div>
+                </div>
+
+                <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
+                    <button type="button" id="memoModalCancel" class="btn btn-primary">취소</button>
+                    <button type="button" id="memoModalModify" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
+                </div>
+
+
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal-->
+    <!-- 메모 수정 모달-->
+
+    <!-- 일정생성 모달 -->
+    <div id="myModal" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-content">
+
+                <!--제목과 textarea-->
+                <div>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
+                </div>
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                </div>
+                <div class="timeLabel">
+                    <a style="position : absolute; top:30px; left:27px;">요일</a>
+                    <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
+                    <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
+                </div>
+
+                <div style="align-item:center;" class="timeSelect">
+                    <div>
+                        <select class="form-select weekSelect" aria-label="Default select example">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <!--<a id="startTimeSelectText">시작 시간</a>-->
+                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                    </div>
+                    <div>
+                        <!--<text id="endTimeSelectText">종료 시간</text>-->
+                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                    </div>
+                </div>
+
+                <div>
+                    <select class="form-select seasonSelect" aria-label="Default select example">
+                        <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
+                        <option value="2학기">2학기</option>
+                    </select>
+                </div>
+
+                <div style="margin : 0px 0px 15px 0px;">
+                    <a>반복 일정</a>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+                    <label class="form-check-label" for="flexCheckDefault">
+                    </label>
+                </div>
+
+                <div class="modalButtons">
+                    <button id="modalCancel1" type="button" class="modalCancel btn btn-primary">취소</button>
+                    <button id="modalCreate1" type="button" class="modalCreate btn btn-primary">생성</button>
+                </div>
+
+
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal-->
+
+    <!-- 메모생성 모달-->
+    <div id="myModal2" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-memo-content">
+
+
+                <!--제목과 textarea-->
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
+                </div>
+
+                <div class="timeSelect">
+                    <div>
+                        <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
+                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
+                            시작 시간</text>
+                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+
+                    </div>
+                    <div>
+                        <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
+                            종료 시간</text>
+                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                    </div>
+                </div>
+
+                <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
+                    <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
+                    <button type="button" id="modalCreate2" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
+                </div>
+
+
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal-->
+    <!-- 메모생성 모달-->
+
+
+
+    <!-- 생성한 모달 수정 -->
+    <div id="myModalModify" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-content">
+
+
+                <!--제목과 textarea-->
+                <div>
+                    <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="일정 제목">
+                </div>
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                </div>
+                <div class="timeLabel">
+                    <a style="position : absolute; top:30px; left:27px;">요일</a>
+                    <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
+                    <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
+                </div>
+
+                <div style="align-item:center;" class="timeSelect">
+                    <div>
+                        <!--<a>요일</a>-->
+                        <select class="form-select weekSelect" aria-label="Default select example">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <!--<a id="startTimeSelectText">시작 시간</a>-->
+                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                    </div>
+                    <div>
+                        <!--<text id="endTimeSelectText">종료 시간</text>-->
+                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                    </div>
+                </div>
+
+                <div>
+                    <select class="form-select seasonSelect" aria-label="Default select example">
+                        <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
+                        <option value="2학기">2학기</option>
+                    </select>
+                </div>
+
+                <div style="margin : 0px 0px 15px 0px;">
+                    <a style="color : black;">반복 일정</a>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                    <label class="form-check-label" for="flexCheckDefault">
+                    </label>
+                </div>
+
+                <div class="modalButtons">
+                    <button id="modalCancelModify" type="button" class="modalCancel btn btn-primary">취소</button>
+                    <button id="modalCreate3" type="button" class="modalCreate btn btn-primary">수정</button>
+                </div>
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal modify-->
     <!-- 페이지 상단부분-->
     <div class="d-flex justify-content-around">
-        <div><h1 id='title' style='display: inline;'></h1><h1 style='display: inline;'>의 시간표</h1></div>
-        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1)">logout</button>
+        <div>
+            <h1 id='title' style='display: inline;'></h1>
+            <h1 style='display: inline;'>님의 시간표</h1>
+        </div>
+        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1);location.href='signin';"; class="btn btn-out-line-primary btn-lg">로그아웃</button>
+        <table></table>
         <table></table>
         <table></table>
         <table></table>
@@ -1153,133 +1429,12 @@
         </div>
 
 
-        <!-- 일정생성 모달 -->
-        <div id="myModal" class="modal">
-            <!-- 모달안 내용 -->
-            <div class="modal-mask">
-                <div class="modal-content">
-
-                    <!--제목과 textarea-->
-                    <div>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
-                    </div>
-                    <div>
-                        <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
-                    </div>
-                    <div class="timeLabel">
-                        <a style="position : absolute; top:30px; left:27px;">요일</a>
-                        <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
-                        <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
-                    </div>
-
-                    <div style="align-item:center;" class="timeSelect">
-                        <div>
-                            <select class="form-select weekSelect" aria-label="Default select example">
-                                <option selected value="0">일요일</option>
-                                <!--<option value="0">일요일</option>-->
-                                <option value="1">월요일</option>
-                                <option value="2">화요일</option>
-                                <option value="3">일요일</option>
-                                <option value="4">월요일</option>
-                                <option value="5">화요일</option>
-                                <option value="6">일요일</option>
-                            </select>
-                        </div>
-                        <div>
-                            <!--<a id="startTimeSelectText">시작 시간</a>-->
-                            <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
-                        </div>
-                        <div>
-                            <!--<text id="endTimeSelectText">종료 시간</text>-->
-                            <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
-                        </div>
-                    </div>
-
-                    <div>
-                        <select class="form-select seasonSelect" aria-label="Default select example">
-                            <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
-                            <option value="2학기">2학기</option>
-                        </select>
-                    </div>
-
-                    <div style="margin : 0px 0px 15px 0px;">
-                        <a>반복 일정</a>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                        <label class="form-check-label" for="flexCheckDefault">
-                        </label>
-                    </div>
-
-                    <div class="modalButtons">
-                        <button id="modalCancel1" type="button" class="modalCancel btn btn-primary">취소</button>
-                        <button id="modalCreate1" type="button" class="modalCreate btn btn-primary">생성</button>
-                    </div>
-
-
-                </div>
-                <!--modal-content-->
-            </div>
-            <!--modal-mask-->
-        </div>
-        <!--modal-->
-
-        <!-- 메모생성 모달-->
-        <div id="myModal2" class="modal">
-            <!-- 모달안 내용 -->
-            <div class="modal-mask">
-                <div class="modal-memo-content">
-
-
-                    <!--제목과 textarea-->
-                    <div>
-                        <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
-                    </div>
-
-                    <div class="timeSelect">
-                        <div>
-                            <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
-                            <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
-                                <option selected value="0">일요일</option>
-                                <!--<option value="0">일요일</option>-->
-                                <option value="1">월요일</option>
-                                <option value="2">화요일</option>
-                                <option value="3">일요일</option>
-                                <option value="4">월요일</option>
-                                <option value="5">화요일</option>
-                                <option value="6">일요일</option>
-                            </select>
-                        </div>
-                        <div>
-                            <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
-                                시작 시간</text>
-                            <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-
-                        </div>
-                        <div>
-                            <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
-                                종료 시간</text>
-                            <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-                        </div>
-                    </div>
-
-                    <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
-                        <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
-                        <button type="button" id="modalCreate2" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
-                    </div>
-
-
-                </div>
-                <!--modal-content-->
-            </div>
-            <!--modal-mask-->
-        </div>
-        <!--modal-->
-        <!-- 메모생성 모달-->
 
     </div>
     <!--페이지 상단부분 끝-->
 
 
-
+    <!-- 일정, 메모 생성 모달 있던 자리-->
 
 
     <!-- 시간표 테이블, td은 시간대별 개수, td는 일주일이라 7개씩-->
@@ -1320,78 +1475,6 @@
                             });">공유</a></li>
                                 </ul>
                             </div>
-
-                            <!-- 생성한 모달 수정 -->
-                            <div id="myModalModify" class="modal">
-                                <!-- 모달안 내용 -->
-                                <div class="modal-mask">
-                                    <div class="modal-content">
-
-
-                                        <!--제목과 textarea-->
-                                        <div>
-                                            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="일정 제목">
-                                        </div>
-                                        <div>
-                                            <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
-                                        </div>
-                                        <div class="timeLabel">
-                                            <a style="position : absolute; top:30px; left:27px;">요일</a>
-                                            <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
-                                            <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
-                                        </div>
-
-                                        <div style="align-item:center;" class="timeSelect">
-                                            <div>
-                                                <!--<a>요일</a>-->
-                                                <select class="form-select weekSelect" aria-label="Default select example">
-                                                    <option selected value="0">일요일</option>
-                                                    <!--<option value="0">일요일</option>-->
-                                                    <option value="1">월요일</option>
-                                                    <option value="2">화요일</option>
-                                                    <option value="3">일요일</option>
-                                                    <option value="4">월요일</option>
-                                                    <option value="5">화요일</option>
-                                                    <option value="6">일요일</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <!--<a id="startTimeSelectText">시작 시간</a>-->
-                                                <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
-                                            </div>
-                                            <div>
-                                                <!--<text id="endTimeSelectText">종료 시간</text>-->
-                                                <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <select class="form-select seasonSelect" aria-label="Default select example">
-                                                <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
-                                                <option value="2학기">2학기</option>
-                                            </select>
-                                        </div>
-
-                                        <div style="margin : 0px 0px 15px 0px;">
-                                            <a style="color : black;">반복 일정</a>
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                            </label>
-                                        </div>
-
-                                        <div class="modalButtons">
-                                            <button id="modalCancelModify" type="button" class="modalCancel btn btn-primary">취소</button>
-                                            <button id="modalCreate3" type="button" class="modalCreate btn btn-primary">수정</button>
-                                        </div>
-                                    </div>
-                                    <!--modal-content-->
-                                </div>
-                                <!--modal-mask-->
-                            </div>
-                            <!--modal modify-->
-
-
-
 
                             <div>
                                 <p class="dailyContentTitle">
@@ -1507,58 +1590,7 @@
                                 </ul>
                             </div>
 
-                            <!-- 메모 수정 모달-->
-                            <div id="myMemoModify" class="modal">
-                                <!-- 모달안 내용 -->
-                                <div class="modal-mask">
-                                    <div class="modal-memo-content">
-
-
-                                        <!--제목과 textarea-->
-                                        <div>
-                                            <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
-                                        </div>
-
-                                        <div class="timeSelect">
-                                            <div>
-                                                <a style="color : #000000; position : static; padding:0px 0px 0px 20px;">요일</a>
-                                                <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
-                                                    <option selected value="0">일요일</option>
-                                                    <!--<option value="0">일요일</option>-->
-                                                    <option value="1">월요일</option>
-                                                    <option value="2">화요일</option>
-                                                    <option value="3">일요일</option>
-                                                    <option value="4">월요일</option>
-                                                    <option value="5">화요일</option>
-                                                    <option value="6">일요일</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <text id="startTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px; margin-left:15px;">
-                                                    시작 시간</text>
-                                                <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-
-                                            </div>
-                                            <div>
-                                                <text id="endTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px;">
-                                                    종료 시간</text>
-                                                <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-                                            </div>
-                                        </div>
-
-                                        <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
-                                            <button type="button" id="memoModalCancel" class="btn btn-primary">취소</button>
-                                            <button type="button" id="memoModalModify" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
-                                        </div>
-
-
-                                    </div>
-                                    <!--modal-content-->
-                                </div>
-                                <!--modal-mask-->
-                            </div>
-                            <!--modal-->
-                            <!-- 메모 수정 모달-->
+                            <!-- 메모 수정 모달/메모수정모달 있을 자리 -->
 
                             <div>
                                 <p class="memoContentTitle">
