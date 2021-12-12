@@ -104,7 +104,7 @@ body{
     border-color: #5F26FF;
     font-weight: bold;
 }
-
+/*
 .warn_input_id{
     padding-left: 10px;
     width: 90%;
@@ -125,7 +125,7 @@ body{
     background-color:#ffebeb;
     border: none;
 }
-
+*/
 .d_email{
     padding-bottom: 10px;
     margin: 0px;
@@ -155,7 +155,7 @@ body{
     border: none;
     box-shadow: #ADADAD 0px 2px 0px;
 }
-
+/*
 .warn_div_id{
     padding-bottom: 10px;
     margin: 0px;
@@ -185,7 +185,7 @@ body{
     border: none;
     box-shadow: red 0px 2px 0px;
 }
-
+*/
 .p_email{
     padding: 0px;
     margin: 0px;

@@ -29,9 +29,9 @@
         var id = $('#uname').val().trim()
         var pw = $('#pw').val().trim()
         if(id.length == 0) {
+            warnon=false;
+            lb.style.visibility="hidden";
             $('.uname').focus();
-            $('.uname').addClass("class","warn");
-            $('.unamewrap').addClass("class", "warn2");
             alert("아이디를 입력하세요.")
             return false;
         } else if (pw.length == 0) {
@@ -48,9 +48,6 @@
                 console.log('성공 ' + JSON.stringify(res))
                 if(res.message=='auth failed') {
                     console.log('로그인 실패');
-                    warnon=true;
-                    $('.uname').addClass("class","warn");
-                    $('.unamewrap').addClass("class", "warn2");
                     lb.style.visibility="visible";
                     $('.uname').focus();
 

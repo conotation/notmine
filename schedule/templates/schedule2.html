@@ -19,994 +19,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
     -->
+    <link rel="stylesheet" type="text/css" href="{%static 'CSS/schedule.css' %}" />
 
-    <style>
-        /* 웹 폰트 임폴트 */
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-
-        body {
-
-            margin: 3%;
-            font-family:
-
-        }
-
-        table {
-
-            padding: 50px;
-        }
-
-        th {
-
-            text-align: center;
-            width: 7%;
-
-        }
-
-        td {
-            width: 300px;
-            height: 100px;
-
-        }
-
-        #CreateIcon {
-            padding: 0px 10px 0px 0px;
-        }
-
-        #dropdownMenuButton1 {
-
-            background-color: #8A2BE2;
-            border-color: #8A2BE2;
-            box-shadow: initial;
-
-            width: 159px;
-
-        }
-
-        .dropdown-menu {
-            box-shadow: initial;
-        }
-
-        .dropdown-item:active {
-            background-color: #8A2BE2
-        }
-
-
-        /* The Modal (background) */
-        .modal {
-
-            display: none;
-            flex-direction: column;
-
-
-        }
-
-        /* Modal Content Box */
-        .modal-content {
-
-            align-items: flex-start;
-            /* padding: 48px; */
-
-            position: fixed;
-            margin-top: -10%;
-            margin-left: -10%;
-            top: 40%;
-            left: 50%;
-
-            width: 436px;
-            height: 580px;
-            padding: 48px;
-
-
-            background: #FFFFFF;
-            border: 1px solid #E0E0E0;
-            box-sizing: border-box;
-            border-radius: 24px;
-        }
-
-        .modal-memo-content {
-
-            align-items: flex-start;
-            /* padding: 48px; */
-
-            position: fixed;
-            margin-top: -10%;
-            margin-left: -10%;
-            top: 40%;
-            left: 50%;
-
-            width: 436px;
-            height: 380px;
-            padding: 48px;
-
-
-            background: #FFFFFF;
-            border: 1px solid #E0E0E0;
-            box-sizing: border-box;
-            border-radius: 24px;
-        }
-
-        /* modal mask */
-        .modal-mask {
-            position: fixed;
-            z-index: 9998;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: table;
-            transition: opacity 0.3s ease;
-
-        }
-
-        .modal-wrapper {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-
-        .timePicker {
-            margin: 10px;
-            height: 33px;
-        }
-
-        .modal-container {
-            width: 300px;
-            margin: 0px auto;
-            padding: 48px;
-            background-color: #ffffff;
-            border: 0px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-            transition: all 0.3s ease;
-            font-family: Helvetica, Arial, sans-serif;
-        }
-
-        /* 일정 생성 취소 버튼 */
-        .modalCancel {
-            background-color: #FFFFFF;
-            border-color: #8A2BE2;
-            box-shadow: initial;
-
-            width: 164px;
-            height: 44px;
-
-            color: #8A2BE2;
-        }
-
-        .modalCancel:hover {
-            background-color: #FFFFFF;
-            color: #8A2BE2;
-            box-shadow: initial;
-        }
-
-        .modalCancel:activate {
-            background-color: #FFFFFF;
-            color: #8A2BE2;
-            box-shadow: initial;
-        }
-
-        .modalCancel:focus {
-            background-color: #FFFFFF;
-            color: #8A2BE2;
-            box-shadow: initial;
-        }
-
-        .modalCreate {
-
-            background-color: #8A2BE2;
-            border-color: #8A2BE2;
-            border-radius: 4px 4px 4px 4px;
-            box-shadow: initial;
-
-            width: 164px;
-            height: 44px;
-
-            color: #FFFFFF;
-            align-item: center;
-            margin: 0px 0px 0px 12px;
-        }
-
-        .modalCreate:focus {
-            background-color: #8A2BE2;
-            box-shadow: initial;
-        }
-
-        .modalCreate:hover {
-            background-color: #8A2BE2;
-        }
-
-        .btn-primary:active:focus {
-            box-shadow: initial;
-        }
-
-        /* 메모 생성 취소 버튼 */
-
-        #modalCancel2 {
-
-            background-color: #FFFFFF;
-            border-color: #8A2BE2;
-            box-shadow: initial;
-
-            width: 164px;
-            height: 44px;
-
-            color: #8A2BE2
-        }
-
-        /* 메모 모달 수정의 취소 버튼 */
-        #memomodalCancel {
-
-            background-color: #FFFFFF;
-            border-color: #8A2BE2;
-            box-shadow: initial;
-
-            width: 164px;
-            height: 44px;
-
-            color: #8A2BE2
-        }
-
-        /* 메모 모달 수정 버튼*/
-        #memoModalModify {
-            background-color: #5F26FF;
-            border-color: #8A2BE2;
-            border-radius: 4px 4px 4px 4px;
-            box-shadow: initial;
-
-            width: 164px;
-            height: 44px;
-
-            color: #FFFFFF;
-            align-item: center;
-            margin: 0px 12px;
-        }
-
-        .close:hover,
-        .close:focus {
-
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* modal 생성시 입력 */
-        #exampleFormControlInput1 {
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 12px;
-
-            position: static;
-            width: 340px;
-            height: 44px;
-            left: 0px;
-            top: 0px;
-
-            background: #FFFFFF;
-            box-shadow: 0px 2px 0px #8E8E8E;
-            border: none;
-            border-radius: 4px 4px 0px 0px;
-        }
-
-        /* modal 수정 */
-        #exampleFormControlInput2 {
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 12px;
-
-            position: static;
-            width: 340px;
-            height: 44px;
-            left: 0px;
-            top: 0px;
-
-            background: #FFFFFF;
-            box-shadow: 0px 2px 0px #8E8E8E;
-            border: none;
-            border-radius: 4px 4px 0px 0px;
-        }
-
-        /* modal 텍스트 */
-        .modalTextArea {
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 12px;
-
-            position: static;
-            width: 340px;
-            height: 150px;
-            left: 0px;
-            top: 68px;
-
-            background: #FFFFFF;
-            border: 1px solid #8E8E8E;
-            box-sizing: border-box;
-            border-radius: 4px;
-            box-shadow: initial;
-
-
-
-            /* Inside Auto Layout */
-
-            flex: none;
-            order: 1;
-            align-self: stretch;
-            flex-grow: 0;
-            margin: 24px 0px 10px 0px;
-            resize: none;
-        }
-
-        .modalTextArea:focus {
-            background-color: #e7dfff;
-            color: #5f26ff;
-            box-shadow: initial;
-        }
-
-        .timeLabel {
-            position: absolute;
-            width: 436px;
-            top: 380px;
-            align-items: center;
-            color: #000000;
-        }
-
-        .weekSelect {
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 15px 12px 1px 15px;
-
-            position: static;
-            width: 86px;
-            height: 44px;
-            left: 0px;
-            top: 0px;
-
-            border: none;
-            background: #FFFFFF;
-            border-radius: 4px 4px 0px 0px;
-
-            border: 0px;
-            border-bottom: 1px solid black
-        }
-
-        .weekSelect:focus {
-            box-shadow: 0px 2px 0px #8E8E8E;
-        }
-
-        .weekSelectText {
-            position: relative;
-            width: 28px;
-            height: 20px;
-            left: 12px;
-            top: 12px;
-
-            font-family: Pretendard;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 14px;
-            line-height: 20px;
-            /* identical to box height, or 143% */
-
-            font-feature-settings: 'pnum'on, 'lnum'on;
-
-
-        }
-
-        .startTimeSelect {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 12px;
-
-            position: static;
-            width: 115px;
-            height: 44px;
-            left: 98px;
-            top: 0px;
-
-            background: #FFFFFF;
-            box-shadow: 0px 2px 0px #8E8E8E;
-            border-radius: 4px 4px 0px 0px;
-            border: none;
-            /* Inside Auto Layout */
-
-
-            flex: none;
-            order: 1;
-            flex-grow: 1;
-            margin: 0px 12px;
-        }
-
-        .startTimeSelect:focus {
-            box-shadow: 0px 2px 0px #8E8E8E;
-        }
-
-        .endTimeSelect {
-            /* Textfield */
-
-
-            /* Auto Layout */
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 12px;
-
-            position: static;
-            width: 105px;
-            height: 44px;
-            left: 225px;
-            top: 0px;
-
-            background: #FFFFFF;
-            box-shadow: 0px 2px 0px #8E8E8E;
-            border-radius: 4px 4px 0px 0px;
-            border: none;
-
-            /* Inside Auto Layout */
-
-            flex: none;
-            order: 2;
-            flex-grow: 1;
-            margin: 0px 12px;
-        }
-
-        .endTimeSelect:focus {
-            box-shadow: 0px 2px 0px #8E8E8E;
-        }
-
-        .timeSelect {
-            /* Textfield */
-
-
-            /* Auto Layout */
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 0px;
-
-            position: static;
-            width: 340px;
-            height: 44px;
-            left: 0px;
-            top: 280px;
-            border: none;
-
-
-            /* Inside Auto Layout */
-
-            flex: none;
-            order: 2;
-            align-self: stretch;
-            flex-grow: 0;
-            margin: 24px 0px;
-        }
-
-        .seasonSelect {
-
-            /* Textfield */
-
-
-            /* Auto Layout */
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 12px;
-
-            position: static;
-            width: 340px;
-            height: 48px;
-            left: 0px;
-            top: 0px;
-
-            background: #FFFFFF;
-            box-shadow: 0px 2px 0px #8E8E8E;
-            border-radius: 4px 4px 0px 0px;
-            border: none;
-            /* Inside Auto Layout */
-
-            flex: none;
-            order: 3;
-            align-self: stretch;
-            flex-grow: 0;
-            margin: 20px 0px 26px 0px;
-
-        }
-
-        .seasonSelect:focus {
-            box-shadow: 0px 2px 0px #8E8E8E;
-        }
-
-        /* 모달 버튼 */
-        .modalButtons {
-            /* Buttons */
-
-
-            /* Auto Layout */
-
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            padding: 0px;
-
-            position: static;
-            width: 340px;
-            height: 44px;
-            left: 0px;
-            top: 90%;
-
-
-            /* Inside Auto Layout */
-
-            flex: none;
-            order: 5;
-            align-self: stretch;
-            flex-grow: 0;
-            margin: 0px 0px;
-        }
-
-
-        #modalCreate2 {
-            background-color: #5F26FF;
-            border-color: #8A2BE2;
-            border-radius: 4px 4px 4px 4px;
-            box-shadow: initial;
-
-            width: 164px;
-            height: 44px;
-
-            color: #FFFFFF;
-            align-item: center;
-            margin: 0px 12px;
-        }
-
-
-
-
-        .form-check-input {
-            position: absolute;
-            right: 10%;
-
-        }
-
-        .form-check-input:focus {
-            box-shadow: initial;
-        }
-
-        .form-check-input:checked {
-            position: absolute;
-            right: 10%;
-            background-color: #5F26FF;
-            box-shadow: initial;
-        }
-
-        /* 시간표에 붙어있는 기본적인 시간 */
-        .timeShow {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            color: #808080;
-        }
-
-        /* 생성한 일정 버튼 */
-        /*
-         .btn-secondary{
-            width : 100%;
-            text-align: left;
-
-            color : #8A2BE2;
-            background-color : #EAE5FA;
-            font-weight : 900;
-
-            border : none;
-            box-shadow:initial;
-         }
-         .btn-secondary:focus{
-            box-shadow:initial;
-            background-color : #EAE5FA;
-            color : #8A2BE2;
-            border : none;
-         }
-         .btn-secondary:focus-visible{
-            border : none;
-         }
-         .btn-secondary:active:focus{
-            box-shadow: initial;
-         }
-
-         .btn-secondary:hover{
-            color : #8A2BE2;
-            background-color : #EAE5FA;
-         }
-         */
-
-        .dailyContentButton {
-            width: 100%;
-            text-align: left;
-
-            color: #8A2BE2;
-            background-color: #EAE5FA;
-            font-weight: 900;
-
-            border: none;
-            box-shadow: initial;
-
-        }
-
-        .dailyContentButton:focus {
-            box-shadow: initial;
-            background-color: #EAE5FA;
-            color: #8A2BE2;
-            border: none;
-        }
-
-        .dailyContentButton:focus-visible {
-            border: none;
-        }
-
-        .dailyContentButton:active:focus {
-            box-shadow: initial;
-        }
-
-        .dailyContentButton:hover {
-            color: #8A2BE2;
-            background-color: #EAE5FA;
-        }
-
-        .dailyContentButtonShared {
-            width: 100%;
-            text-align: left;
-
-            color: #000000;
-            background-color: #E1E1E1;
-            font-weight: 900;
-
-            border: none;
-            box-shadow: initial;
-        }
-
-        .dailyContentButtonShared:focus {
-            box-shadow: initial;
-            border: none;
-            color: #000000;
-            background-color: #E1E1E1;
-        }
-
-        .dailyContentButtonShared:focus-visible {
-            border: none;
-            box-shadow: initial;
-            color: #000000;
-            background-color: #E1E1E1;
-        }
-
-        .dailyContentButtonShared:active:focus {
-            box-shadow: initial;
-            color: #000000;
-            background-color: #E1E1E1;
-        }
-
-        .dailyContentButtonShared:hover {
-            color: #000000;
-            background-color: #E1E1E1;
-        }
-
-
-        .showSeason {
-            font-weight: normal;
-        }
-
-        /* 생성한 일정 버튼 안의 텍스트 조절 */
-        .p-2 {
-            padding: 0px !important;
-        }
-
-        /* 생성한 일정의 내용의 세로점3개 이미지*/
-        .moreVert {
-            width: 24px;
-            height: 24px;
-
-        }
-
-        /* 일정 내용 */
-
-        .dailyContent {
-            width: 350px;
-            height: 170px;
-            border-radius: 4px 15px 4px 4px;
-
-            position: absolute;
-
-            box-shadow: 3px 3px 3px 3px rgb(0, 0, 0, .25);
-            z-index: 10;
-        }
-
-        /* 일정 내용의 타이틀 */
-        .dailyContentTitle {
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-
-
-        .dailyContent-1 {
-            width: 350px;
-            height: 100px;
-            position: absolute;
-
-            background-color: #8A2BE2;
-            color: #FFFFFF;
-
-            border: none;
-            border-radius: 4px 4px 0px 0px;
-
-            padding: 10px;
-
-            z-index: 2;
-        }
-
-        .dailyContent-2 {
-            width: 350px;
-            height: 70px;
-            position: absolute;
-            top: 100px;
-            border-radius: 0px 0px 4px 4px;
-
-            background-color: #FFFFFF;
-            color: #000000;
-
-        }
-
-        .dailyContentShowSeason {
-            padding: 15px 10px 10px 10px;
-            font-weight: 800;
-            margin: 0px;
-        }
-
-        /* 무슨 학기인지 보여줌 */
-        .dailyContentShowRepeat {
-            font-weight: normal;
-            color: #808080;
-            padding: 0px 0px 10px 10px;
-            margin: 0px;
-        }
-
-        /* 일정 내용 끝 */
-
-        /* 공유받은 일정 */
-        .sharedDailyContent {
-            width: 350px;
-            height: 200px;
-            border-radius: 4px 15px 4px 4px;
-
-            position: absolute;
-
-            box-shadow: 3px 3px 3px 3px rgb(0, 0, 0, .25);
-            z-index: 10;
-        }
-
-        /* 일정 내용의 타이틀 */
-        .sharedDailyContentTitle {
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .sharedDailyContentUser {
-            color: #969696;
-        }
-
-        .sharedDailyContent-1 {
-            width: 350px;
-            height: 130px;
-            position: absolute;
-
-            background-color: #424242;
-            color: #FFFFFF;
-
-            border: none;
-            border-radius: 4px 4px 0px 0px;
-
-            padding: 10px;
-
-            z-index: 2;
-        }
-
-        .sharedDailyContent-2 {
-            width: 350px;
-            height: 100px;
-            position: absolute;
-            top: 100px;
-            border-radius: 0px 0px 4px 4px;
-
-            background-color: #FFFFFF;
-            color: #000000;
-
-        }
-
-        .sharedDailyContentShowSeason {
-            padding: 43px 10px 10px 10px;
-            font-weight: 800;
-            margin: 0px;
-        }
-
-        /* 무슨 학기인지 보여줌 */
-        .sharedDailyContentShowRepeat {
-            font-weight: normal;
-            color: #808080;
-            padding: 0px 0px 10px 10px;
-            margin: 0px;
-        }
-
-
-
-
-        /* 오른쪽 표시 드롭다운 */
-
-        .dcDropdown {
-            left: 310px;
-            padding: 0px 0px 0px 0px;
-        }
-
-        .dropdown-toggle:focus {
-            box-shadow: initial;
-        }
-
-        .dcDropdown .dropdown-toggle:after {
-            border: none;
-        }
-
-        .imgButton {
-            width: 24px !important;
-            height: 24px !important;
-            padding: 0px 0px 0px 0px;
-        }
-
-        .swal-modal.contentDelete {
-            height: 100px;
-            text-align: left;
-            margin: 40px;
-        }
-
-        .swal-text.contentDelete {
-            padding-left: 80px;
-        }
-
-        .swal-footer.contentDelete {
-            width: 250px;
-            left: 45%;
-            top: 1%;
-            position: absolute;
-        }
-
-
-        .swal-button--confirm {
-            background-color: #8A2BE2;
-        }
-
-        .swal-button--confirm:not([disabled]):hover.contentDelete {
-            background-color: #8A2BE2;
-        }
-
-        swal-button:focus.contentDelete {
-            box-shadow: initial;
-        }
-
-
-        /*
-         .swal-modal{
-            height : 100px;
-            text-align : left;
-            margin:40px;
-         }
-
-
-         .swal-text{
-            padding-left : 80px;
-
-         }
-
-         .swal-footer{
-            width : 250px;
-            left : 45%;
-            top : 1%;
-            position : absolute;
-         }
-         .swal-button--confirm{
-            background-color : #8A2BE2;
-         }
-         .swal-button--confirm:not([disabled]):hover{
-            background-color : #8A2BE2;
-         }
-
-         .swal-button:focus{
-            box-shadow : initial;
-         }
-         */
-
-
-        /* 시간표에서 메모 보여주는 버튼 */
-
-        .memoButton {
-            width: 100%;
-            text-align: left;
-
-            color: #FE8A20;
-            background-color: #FAEEE2;
-            font-weight: 900;
-
-            border: none;
-            box-shadow: initial;
-
-        }
-
-        .memoButton:focus {
-            box-shadow: initial;
-            background-color: #FAEEE2;
-            color: #FE8A20;
-            border: none;
-        }
-
-        .memoButton:focus-visible {
-            border: none;
-        }
-
-        .memoButton:active:focus {
-            box-shadow: initial;
-        }
-
-        .memoButton:hover {
-            color: #FE8A20;
-            background-color: #FAEEE2;
-        }
-
-        .showMemo {
-            font-weight: normal;
-        }
-
-        /* 메모 내용 표시 */
-        .memoContent {
-            width: 350px;
-            height: 100px;
-            border-radius: 4px 4px 4px 4px;
-            background-color: #FE8A20;
-            position: absolute;
-
-            box-shadow: 3px 3px 3px 3px rgb(0, 0, 0, .25);
-            z-index: 10;
-
-            border: none;
-
-            padding: 10px;
-
-            z-index: 2;
-
-            color: #FFFFFF;
-
-        }
-
-        /* 일정 내용의 타이틀 */
-        .memoContentTitle {
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-
-        .memoContentBody {
-            font-weight: normal;
-
-        }
-    </style>
 
     <script>
         function getCookie(cookieName) {
@@ -1023,7 +37,7 @@
 
         var setCookie = (name, value, exp) => {
             var date = new Date();
-            date.setTime(date.getTime() + exp*24*60*60*1000);
+            date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
             document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
         };
 
@@ -1048,7 +62,8 @@
             span1.onclick = function() {
                 modal1.style.display = "none";
             }
-            /* 모달 밖을 클릭했을때 취소되는 기능인데 작동안해서 뺌
+
+             /*
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
                 if (event.target == modal1) {
@@ -1056,6 +71,7 @@
                 }
             }
             */
+
             // Get the modal 메모생성
             var modal2 = document.getElementById('myModal2');
             // Get the button that opens the modal
@@ -1078,6 +94,7 @@
                 }
             }
             */
+            /*
             // modal 수정
             var modal3 = document.getElementById('myModalModify');
             // Get the button that opens the modal
@@ -1099,7 +116,7 @@
                     modal1.style.display = "none";
                 }
             }
-            */
+            ///
 
             // 메모 모달 memo modal 수정
             var modal4 = document.getElementById('myMemoModify');
@@ -1119,19 +136,307 @@
             span4.onclick = function() {
                 modal4.style.display = "none";
             }
-
+            */
             //$('#logout').click(()=>{setCookie("token", "session del", -1);console.log('session del');});
+            firstInit();
+        });
 
+        String.prototype.format = function() {
+            var formatted = this;
+            for (var arg in arguments) {
+                formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+            }
+            return formatted;
+        }
+
+        firstInit = () => { 
+        $.ajax({
+            type: "POST",
+            url: "http://conota.cf/getMemo",
+            data: dData,
+            success: (res) => {
+                console.log('성공 ' + JSON.stringify(res));
+                memo = res.memo;
+                console.log(memo.length)
+                if (res.message == 'auth failed' || res.memo.length == 0) {
+                    console.log('메모 로드 실패');
+                }
+                scheInit(memo);
+                return false;
+            },
+            error: (req, stat, err) => {
+                console.log('실패');
+            }
+        });
+    }
+
+        var count = 0;
+
+        $(document).on('.modal', function() {
+            var zindex = 1040 + (10 * count);
+            $(this).css('z-index', zindex);
+            setTimeout(function() {
+                $('.modal-mask').not('.modal-stack').css('z-index'.zindex - 1).addClass('modal-stack');
+            }, 0);
+            count = count + 1
         });
     </script>
 
 </head>
 
+
 <body style="font-family : 'Pretendard' ">
+    <!-- 메모 수정 모달-->
+    <div id="myMemoModify" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-memo-content">
+                <!--제목과 textarea-->
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
+                </div>
+
+                <div class="timeSelect">
+                    <div>
+                        <a style="color : #000000; position : static; padding:0px 0px 0px 20px;">요일</a>
+                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <text id="startTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px; margin-left:15px;">
+                            시작 시간</text>
+                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+
+                    </div>
+                    <div>
+                        <text id="endTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px;">
+                            종료 시간</text>
+                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                    </div>
+                </div>
+
+                <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
+                    <button type="button" id="memoModalCancel" class="btn btn-primary">취소</button>
+                    <button type="button" id="memoModalModify" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
+                </div>
+
+
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal-->
+    <!-- 메모 수정 모달-->
+
+    <!-- 일정생성 모달 -->
+    <div id="myModal" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-content">
+
+                <!--제목과 textarea-->
+                <div>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
+                </div>
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                </div>
+                <div class="timeLabel">
+                    <a style="position : absolute; top:30px; left:27px;">요일</a>
+                    <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
+                    <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
+                </div>
+
+                <div style="align-item:center;" class="timeSelect">
+                    <div>
+                        <select class="form-select weekSelect" aria-label="Default select example">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <!--<a id="startTimeSelectText">시작 시간</a>-->
+                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                    </div>
+                    <div>
+                        <!--<text id="endTimeSelectText">종료 시간</text>-->
+                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                    </div>
+                </div>
+
+                <div>
+                    <select class="form-select seasonSelect" aria-label="Default select example">
+                        <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
+                        <option value="2학기">2학기</option>
+                    </select>
+                </div>
+
+                <div style="margin : 0px 0px 15px 0px;">
+                    <a>반복 일정</a>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+                    <label class="form-check-label" for="flexCheckDefault">
+                    </label>
+                </div>
+
+                <div class="modalButtons">
+                    <button id="modalCancel1" type="button" class="modalCancel btn btn-primary">취소</button>
+                    <button id="modalCreate1" type="button" class="modalCreate btn btn-primary">생성</button>
+                </div>
+
+
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal-->
+
+    <!-- 메모생성 모달-->
+    <div id="myModal2" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-memo-content">
+
+
+                <!--제목과 textarea-->
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
+                </div>
+
+                <div class="timeSelect">
+                    <div>
+                        <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
+                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
+                            시작 시간</text>
+                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+
+                    </div>
+                    <div>
+                        <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
+                            종료 시간</text>
+                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                    </div>
+                </div>
+
+                <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
+                    <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
+                    <button type="button" id="modalCreate2" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
+                </div>
+
+
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal-->
+    <!-- 메모생성 모달-->
+
+
+
+    <!-- 생성한 모달 수정 -->
+    <div id="myModalModify" class="modal">
+        <!-- 모달안 내용 -->
+        <div class="modal-mask">
+            <div class="modal-content">
+
+
+                <!--제목과 textarea-->
+                <div>
+                    <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="일정 제목">
+                </div>
+                <div>
+                    <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
+                </div>
+                <div class="timeLabel">
+                    <a style="position : absolute; top:30px; left:27px;">요일</a>
+                    <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
+                    <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
+                </div>
+
+                <div style="align-item:center;" class="timeSelect">
+                    <div>
+                        <!--<a>요일</a>-->
+                        <select class="form-select weekSelect" aria-label="Default select example">
+                            <option selected value="0">일요일</option>
+                            <!--<option value="0">일요일</option>-->
+                            <option value="1">월요일</option>
+                            <option value="2">화요일</option>
+                            <option value="3">일요일</option>
+                            <option value="4">월요일</option>
+                            <option value="5">화요일</option>
+                            <option value="6">일요일</option>
+                        </select>
+                    </div>
+                    <div>
+                        <!--<a id="startTimeSelectText">시작 시간</a>-->
+                        <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
+                    </div>
+                    <div>
+                        <!--<text id="endTimeSelectText">종료 시간</text>-->
+                        <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
+                    </div>
+                </div>
+
+                <div>
+                    <select class="form-select seasonSelect" aria-label="Default select example">
+                        <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
+                        <option value="2학기">2학기</option>
+                    </select>
+                </div>
+
+                <div style="margin : 0px 0px 15px 0px;">
+                    <a style="color : black;">반복 일정</a>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                    <label class="form-check-label" for="flexCheckDefault">
+                    </label>
+                </div>
+
+                <div class="modalButtons">
+                    <button id="modalCancelModify" type="button" id="myBtn3" class="modalCancel btn btn-primary">취소</button>
+                    <button id="modalCreate3" type="button" class="modalCreate btn btn-primary">수정</button>
+                </div>
+            </div>
+            <!--modal-content-->
+        </div>
+        <!--modal-mask-->
+    </div>
+    <!--modal modify-->
     <!-- 페이지 상단부분-->
     <div class="d-flex justify-content-around">
-        <div><h1 id='title' style='display: inline;'></h1><h1 style='display: inline;'>의 시간표</h1></div>
-        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1)">logout</button>
+        <div>
+            <h1 id='title' style='display: inline;'></h1>
+            <h1 style='display: inline;'>님의 시간표</h1>
+        </div>
+        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1);location.href='signin';"; class="btn btn-out-line-primary btn-lg">로그아웃</button>
+        <table></table>
         <table></table>
         <table></table>
         <table></table>
@@ -1152,133 +457,12 @@
         </div>
 
 
-        <!-- 일정생성 모달 -->
-        <div id="myModal" class="modal">
-            <!-- 모달안 내용 -->
-            <div class="modal-mask">
-                <div class="modal-content">
-
-                    <!--제목과 textarea-->
-                    <div>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="일정 제목">
-                    </div>
-                    <div>
-                        <textarea class="form-control modalTextArea" placeholder="일정 내용"></textarea>
-                    </div>
-                    <div class="timeLabel">
-                        <a style="position : absolute; top:30px; left:27px;">요일</a>
-                        <a style="position : absolute; top:30px; left:120px;">시작 시간</a>
-                        <a style="position : absolute; top:30px; left:250px;">종료 시간</a>
-                    </div>
-
-                    <div style="align-item:center;" class="timeSelect">
-                        <div>
-                            <select class="form-select weekSelect" aria-label="Default select example">
-                                <option selected value="0">일요일</option>
-                                <!--<option value="0">일요일</option>-->
-                                <option value="1">월요일</option>
-                                <option value="2">화요일</option>
-                                <option value="3">일요일</option>
-                                <option value="4">월요일</option>
-                                <option value="5">화요일</option>
-                                <option value="6">일요일</option>
-                            </select>
-                        </div>
-                        <div>
-                            <!--<a id="startTimeSelectText">시작 시간</a>-->
-                            <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black">
-                        </div>
-                        <div>
-                            <!--<text id="endTimeSelectText">종료 시간</text>-->
-                            <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black">
-                        </div>
-                    </div>
-
-                    <div>
-                        <select class="form-select seasonSelect" aria-label="Default select example">
-                            <option selected class="seasonTimeSelectText" value="1학기">1학기</option>
-                            <option value="2학기">2학기</option>
-                        </select>
-                    </div>
-
-                    <div style="margin : 0px 0px 15px 0px;">
-                        <a>반복 일정</a>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                        <label class="form-check-label" for="flexCheckDefault">
-                        </label>
-                    </div>
-
-                    <div class="modalButtons">
-                        <button id="modalCancel1" type="button" class="modalCancel btn btn-primary">취소</button>
-                        <button id="modalCreate1" type="button" class="modalCreate btn btn-primary">생성</button>
-                    </div>
-
-
-                </div>
-                <!--modal-content-->
-            </div>
-            <!--modal-mask-->
-        </div>
-        <!--modal-->
-
-        <!-- 메모생성 모달-->
-        <div id="myModal2" class="modal">
-            <!-- 모달안 내용 -->
-            <div class="modal-mask">
-                <div class="modal-memo-content">
-
-
-                    <!--제목과 textarea-->
-                    <div>
-                        <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
-                    </div>
-
-                    <div class="timeSelect">
-                        <div>
-                            <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
-                            <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
-                                <option selected value="0">일요일</option>
-                                <!--<option value="0">일요일</option>-->
-                                <option value="1">월요일</option>
-                                <option value="2">화요일</option>
-                                <option value="3">일요일</option>
-                                <option value="4">월요일</option>
-                                <option value="5">화요일</option>
-                                <option value="6">일요일</option>
-                            </select>
-                        </div>
-                        <div>
-                            <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
-                                시작 시간</text>
-                            <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-
-                        </div>
-                        <div>
-                            <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
-                                종료 시간</text>
-                            <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-                        </div>
-                    </div>
-
-                    <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
-                        <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
-                        <button type="button" id="modalCreate2" class="btn btn-primary" style="margin:0px 0px 0px 12px;">생성</button>
-                    </div>
-
-
-                </div>
-                <!--modal-content-->
-            </div>
-            <!--modal-mask-->
-        </div>
-        <!--modal-->
-        <!-- 메모생성 모달-->
 
     </div>
     <!--페이지 상단부분 끝-->
 
 
-
+    <!-- 일정, 메모 생성 모달 있던 자리-->
 
 
     <!-- 시간표 테이블, td은 시간대별 개수, td는 일주일이라 7개씩-->
@@ -1294,52 +478,43 @@
                 <th>토요일</th>
             </tr>
 
-        </tbody>
-    </table>
-
 <script>
-    time = ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00", "01", "02", "03", "04", "05"];
+    time = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
     var dData = {
         "user": atob(getCookie('token'))
     }; //sha256(pw)}
     var memo = "";
-    $.ajax({
-        type: "POST",
-        url: "http://conota.cf/getMemo",
-        data: dData,
-        success: (res) => {
-            console.log('성공 ' + JSON.stringify(res));
-            memo = res.memo;
-            if (res.message == 'auth failed') {
-                console.log('로그인 실패');
-                return false;
-            }
-            scheInit(memo);
-        },
-        error: (req, stat, err) => {
-            console.log('실패');
-        }
-    });
+
 
     scheInit = () => {
-        data = "";
-        for (var i = 0; i < 24; i++) {
+        data = "<tr>";
+
+        dMemo = Array();
+        for(var i=0; i<7; i++) {    // Memo Data 전처리
+            dMemo[i] = Array();
+            for(var j=0; j < memo.length; j++){
+                if(new Date(memo[j]['m_date']).getDay()-1 == i)
+                    dMemo[i].push(memo[j]);
+            }
+        }
+
+        for(var i = 0; i<7; i++){   // 메모 생성
+            if(i==0)
+                data = data + "<td style='height:130px'><p class='timeShow' style='color:#000;'>메모</p>"
+            else data = data + "<td style='height:130px'><p class='timeShow' style='color:#FFF;'>메모</p>"
+
+            for(var j = 0; j<dMemo[i].length-0; j++){
+                var tmp = dMemo[i][j];
+                data = data + '<button type="button" class="btn btn-secondary memoButton" style="margin-bottom:12px;" onclick="$(\'#m_no{0}\').css(\'visibility\', $(\'#m_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showMemo"></div></div></button><div class="memoContent" style="visibility:visible;" id="m_no{3}"><div class="memoContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn4">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: { cancel : true, confirm : true,},customClass : \'contentDelete\',});">삭제</a></li><li><a class="dropdown-item" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',});" href="#">공유</a></li></ul></div><div><p class="memoContentTitle"></p><p class="memoContentBody">{4}</p></div></div></div>'.format(tmp['m_no'],tmp['m_no'],tmp['m_content'].substr(0,5).concat("..."), tmp['m_no'], tmp['m_content'])
+            }
+            data = data + "</td>";
+        } data = data + "</tr>";
+        for (var i = 0; i < time.length; i++) { // 시간표 생성
             data = data + "<tr>";
             for (var j = 0; j < 7; j++) {
-                if (j == 0) {
-                    data = data + "<td id=''><p class='timeShow'>" + time[i] + ":00</p></td>";
-                    continue;
-                }
                 data = data + "<td>";
-                for (var z = 0; z < memo.length; z++){
-                    var tmp = memo[z];
-                    var t_date = new Date(tmp['m_date']);
-                    if(t_date.getDay() == j && t_date.getHours() == time[i]*1){
-                        data = data + '<button type="button" class="btn btn-secondary memoButton"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">'+ tmp['m_content'] + '</div><div class="p=2 bd-highlight showMemo">' + 'asdf' + '</div></div></button>';
-
-                        // SCHE data = data + '<button type="button" class="btn btn-secondary dailyContentButton"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">' + tmp['m_content'] + '</div><div class="p=2 bd-highlight showSeason">' + 'asdf' + '</div></div></button>';
-                    }
-                }
+                if(j==0)
+                    data = data + "<p class='timeShow'>{0}</p>".format(time[i]);
 
                 data = data + "</td>";
             }
@@ -1347,5 +522,12 @@
         }
         $('#stbody').html($('#stbody').html() + data);
     }
+
+    
 </script>
+
+        </tbody>
+
+    </table>
+
 </body>

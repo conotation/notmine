@@ -1,9 +1,7 @@
 let sm;
 let unamewrap, lb, uname;
-let warnon;
 
 function init() {
-    warnon=false;
     
     sm = document.getElementById("sm");
     unamewrap = document.getElementById("unamewrap");
@@ -19,11 +17,11 @@ function init() {
         out();
     })
 
-    uname.addEventListener('focusin',()=>{
+    uname.addEventListener('focus', ()=>{
         userNameDivStyleChange();
         userNameStyleChange();
     })
-    uname.addEventListener('focusout',()=>{
+    uname.addEventListener('blur',()=>{
         userNameDivBack();
         userNameStyleBack();
     })
@@ -38,34 +36,26 @@ function out() {
 }
 
 function userNameDivStyleChange(){
-    if(!warnon){
         unamewrap.style.backgroundColor="#e7dfff";
         unamewrap.style.boxShadow="0px 2px 0px #5f26ff";
-    }
 }
 
 function userNameStyleChange(){
-    if(!warnon){
         uname.style.width="90%";
         uname.style.outline="none";
         uname.style.backgroundColor="#e7dfff";
         uname.style.color="#5f26ff";
         uname.style.paddingLeft="12px";
-    }
 }
 
 function userNameDivBack(){
-    if(!warnon){
     unamewrap.style.backgroundColor="#FFFFFF";
     unamewrap.style.boxShadow="0px 2px 0px #ADADAD";
-    }
 }
 
 function userNameStyleBack(){
-    if(!warnon){
     uname.style.width="100%";
     uname.style.backgroundColor="#FFFFFF";
     uname.style.color="black";
     uname.style.paddingLeft="20px";
-    }
 }

@@ -28,17 +28,18 @@
     
         if (id.length == 0) {
             $('.uname').focus();
-            $('.uname').attr("class", "warn");
+            l_email.style.visibility="visible";
             alert("아이디를 입력하세요.")
             return false;
         } else if (pw.length == 0) {
             $('.pw').focus();
-    
+            l_pw.style.visibility="visible";
             alert("비밀번호를 입력하세요.")
             return false;
         }
         if (pw != rpw) {
             alert("비밀번호가 서로 일치하지 않습니다.");
+            l_pw2.style.visibility="visible";
             return false;
         }
         var dData = {
@@ -70,25 +71,25 @@
         <span class="reg">Register</span>
         <span class="kreg">회원 가입</span>
         <form method="POST" onsubmit="return false;" novalidate>
-            <div class="d_email warn_div_id">
+            <div class="d_email" id="d_email">
                 <p class="p_email">
-                    <label class="l_email">이미 존재하는 이메일입니다.</label>
+                    <label class="l_email" id="l_email">아이디를 입력해주세요..</label>
                 </p>
-                <input type="text" name="username" class="Email warn_input_id" placeholder="Email" id="mid" required>
+                <input type="text" name="username" class="Email" placeholder="Email" id="mid" required>
             </div>
             <br>
-            <div class="d_pw warn_div_pw">
+            <div class="d_pw" id="d_pw">
                 <p class="p_pw">
-                    <label class="l_pw">양식에 맞지 않는 비밀번호입니다.</label>
+                    <label class="l_pw" id="l_pw">비밀번호를 입력해주세요.</label>
                 </p>
-                <input type="password" name="password"class="password warn_input_pw" placeholder="비밀번호" id="pw" required>
+                <input type="password" name="password"class="password" placeholder="비밀번호" id="pw" required>
             </div>
             <br>
-            <div class="d_pw2 warn_div_pw2">
+            <div class="d_pw2" id="d_pw2"> 
                 <p class="p_pw2">
-                    <label class="l_pw2">비밀번호가 일치하지 않습니다.</label>
+                    <label class="l_pw2" id="l_pw2">비밀번호가 일치하지 않습니다.</label>
                 </p>
-                <input type="password" name="password"class="password2 warn_input_pw2" placeholder="비밀번호 확인" id="rpw" required>
+                <input type="password" name="password"class="password2" placeholder="비밀번호 확인" id="rpw" required>
             </div>
             <br>
             <br>
