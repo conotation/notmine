@@ -42,7 +42,7 @@
         var dData = {"id": id, "pw": sha256(pw) }; //sha256(pw)}
         $.ajax({
             type: "POST",
-            url: "http://prec.conota.cf/login",
+            url: "https://prec.conota.cf/login",
             data: dData,
             success: (res) => {
                 console.log('성공 ' + JSON.stringify(res))

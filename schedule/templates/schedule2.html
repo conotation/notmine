@@ -83,7 +83,7 @@
                 }
                 $.ajax({
                     type: "POST",
-                    url: "http://prec.conota.cf/sche",
+                    url: "https://prec.conota.cf/sche",
                     data: makeSche,
                     success: (res) => {
                         console.log("성공 " + JSON.stringify(res));
@@ -180,7 +180,7 @@
             return new Promise((resolve, rej) => {
                 $.ajax({
                 type: "POST",
-                url: "http://prec.conota.cf/getMemo",
+                url: "https://prec.conota.cf/getMemo",
                 data: dData,
                 success: (res) => {
                     console.log('성공 ' + JSON.stringify(res));
@@ -204,7 +204,7 @@
             return new Promise((resolve, rej) => {
                 $.ajax({
                 type: "POST",
-                url: "http://prec.conota.cf/getSche",
+                url: "https://prec.conota.cf/getSche",
                 data: dData,
                 success: (res) => {
                     console.log('성공 ' + JSON.stringify(res));
