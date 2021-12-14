@@ -256,7 +256,7 @@
         }
 
         /* modal 생성시 입력 */
-        #exampleFormControlInput1 {
+        #create_sche_title {
 
             display: flex;
             flex-direction: row;

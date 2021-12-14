@@ -16,10 +16,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{%static 'CSS/schedule.css' %}" />
 
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
     
     <script>
         function getCookie(cookieName) {
@@ -165,32 +165,27 @@
                     <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
                 </div>
 
-                <div class="timeSelect">
-                    <div>
-                        <a style="color : #000000; position : static; padding:0px 0px 0px 20px;">요일</a>
-                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
-                            <option selected value="0">일요일</option>
-                            <!--<option value="0">일요일</option>-->
-                            <option value="1">월요일</option>
-                            <option value="2">화요일</option>
-                            <option value="3">일요일</option>
-                            <option value="4">월요일</option>
-                            <option value="5">화요일</option>
-                            <option value="6">일요일</option>
-                        </select>
-                    </div>
-                    <div>
-                        <text id="startTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px; margin-left:15px;">
-                            시작 시간</text>
-                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                <div class="timeSelect" style="margin:24px 0px 8px 0px;">
 
-                    </div>
-                    <div>
-                        <text id="endTimeSelectText3" class="timePicker" style="color : #000000; position : static; padding:10px 0px 0px 15px;">
-                            종료 시간</text>
-                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                    <text style="width:30px; margin : 9px 30px 5px 15px;">날짜</text>
+                    <div class="form-group">
+                        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="">
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text">
+                                        <img id="calendarIcon2" src="{% static 'images/outline_calendar_month_black_24dp.png' %}" />
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker2').datetimepicker({
+                            format: 'L'
+                            });
+                        });
+                    </script>
 
                 <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
                     <button type="button" id="memoModalCancel" class="btn btn-primary">취소</button>
@@ -286,33 +281,27 @@
                 <div>
                     <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
                 </div>
-
-                <div class="timeSelect">
-                    <div>
-                        <a style="position : static; padding:0px 0px 0px 20px;">요일</a>
-                        <select class="form-select weekSelect" aria-label="Default select example" style="margin-top:5px;">
-                            <option selected value="0">일요일</option>
-                            <!--<option value="0">일요일</option>-->
-                            <option value="1">월요일</option>
-                            <option value="2">화요일</option>
-                            <option value="3">일요일</option>
-                            <option value="4">월요일</option>
-                            <option value="5">화요일</option>
-                            <option value="6">일요일</option>
-                        </select>
-                    </div>
-                    <div>
-                        <text id="startTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px; margin-left:15px;">
-                            시작 시간</text>
-                        <input type="time" style="margin: 19px 6px 10px 14px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
-
-                    </div>
-                    <div>
-                        <text id="endTimeSelectText2" class="timePicker" style="position : static; padding:10px 0px 0px 15px;">
-                            종료 시간</text>
-                        <input type="time" style="margin: 19px 10px 10px 10px; border: 0px; border-bottom: 1px solid black; padding-bottom:5px;">
+                    <div class="timeSelect" style="margin:24px 0px 8px 0px;">
+                    <!--원래 시간 선택이었는데 날짜 선택으로 바뀜 -->
+                    <text style="width:30px; margin : 9px 30px 5px 15px;">날짜</text>
+                    <div class="form-group">
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text">
+                                        <img id="calendarIcon" src="{% static 'images/outline_calendar_month_black_24dp.png' %}" />
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                 </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker1').datetimepicker({
+                            format: 'L'
+                            });
+                        });
+                    </script>
 
                 <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
                     <button type="button" id="modalCancel2" class="btn btn-primary">취소</button>
@@ -399,7 +388,7 @@
     </div>
     <!--modal modify-->
     <!-- 페이지 상단부분-->
-    <div class="d-flex justify-content-around">
+    <div class="d-flex justify-content-around" style="position: relative; top: -20px;">
         <div>
             <h1 id='title' style='display: inline;'></h1>
             <h1 style='display: inline;'>님의 시간표</h1>
