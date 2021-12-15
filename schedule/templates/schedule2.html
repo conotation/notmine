@@ -29,6 +29,7 @@
 
 
     <script>
+        var uFlag = 0;
         function getCookie(cookieName) {
             var cookieValue = null;
             if (document.cookie) {
@@ -47,8 +48,11 @@
             document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
         };
 
-        if (getCookie('token') == null)
+        if (getCookie('token') == null){
+            alert('session이 만료되었습니다.');
+            location.href = "signin";
             console.log('session expired');
+        }
 
         $(document).ready(() => {
             var name = getCookie('token');
@@ -69,7 +73,7 @@
                 modal1.style.display = "none";
             }
 
-            $('#modalCreate1').click(()=>{
+            $('#modalCreate1').click(() => {
                 var makeSche = {
                     "user": atob(getCookie('token')),
                     "day": $("#create_sche_day").val(),
@@ -86,12 +90,36 @@
                     data: makeSche,
                     success: (res) => {
                         console.log("성공 " + JSON.stringify(res));
-                        if(res.success == false){
+                        if (res.success == false) {
                             console.log('생성 실패');
                             return false;
-                        }
-                        else location.reload();
-                    }, error: (req, stat, err) => {
+                        } else location.reload();
+                    },
+                    error: (req, stat, err) => {
+                        console.log('실패');
+                    }
+                });
+            });
+
+            $('#modalCreate2').click(() => {
+                var makeSche = {
+                    "user": atob(getCookie('token')),
+                    "date": $("#create_memo_date").val(),
+                    "content": $("#create_memo_content").val(),
+                    "share": 'off'
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "https://prec.conota.cf/memo",
+                    data: makeSche,
+                    success: (res) => {
+                        console.log("성공 " + JSON.stringify(res));
+                        if (res.success == false) {
+                            console.log('생성 실패');
+                            return false;
+                        } else location.reload();
+                    },
+                    error: (req, stat, err) => {
                         console.log('실패');
                     }
                 });
@@ -112,7 +140,7 @@
             span2.onclick = function() {
                 modal2.style.display = "none";
             }
-            
+
             /*
             // modal 수정
             var modal3 = document.getElementById('myModalModify');
@@ -170,186 +198,175 @@
             return formatted;
         }
 
-        firstInit = () => { 
-            var dData = {
-                "user": atob(getCookie('token'))
-            };
-
-            var memo_ajax = () => {
-            return new Promise((resolve, rej) => {
-                $.ajax({
+        firstInit = () => {
+            $.ajax({
                 type: "POST",
-                url: "https://prec.conota.cf/getMemo",
-                data: dData,
+                url: "https://prec.conota.cf/getData",
+                data: {
+                    "user": atob(getCookie('token'))
+                },
                 success: (res) => {
                     console.log('성공 ' + JSON.stringify(res));
-                    memo = res.memo;
-                    console.log(memo.length)
-                    if (res.message == 'auth failed' || res.memo.length == 0) {
-                        console.log('메모 로드 실패');
+                    if (res.success == false) {
+                        console.log('데이터 로드 실패');
                     }
-                    memoInit(memo);
-                    resolve(1);
-                    return false;
-                },
-                    error: (req, stat, err) => {
-                    console.log('실패');
-                    }
-                });
-            });
-            }
+                    uFlag = res.user;
+                    sche = res.data[0];
+                    memo = res.data[1];
 
-            var sche_ajax = () => {
-            return new Promise((resolve, rej) => {
-                $.ajax({
-                type: "POST",
-                url: "https://prec.conota.cf/getSche",
-                data: dData,
-                success: (res) => {
-                    console.log('성공 ' + JSON.stringify(res));
-                    sche = res.sche;
-                    console.log(sche.length)
-                    if (res.message == 'auth failed' || res.sche.length == 0) {
-                        console.log('시간표 로드 실패');
-                    }
-                    scheInit(sche);
-                    resolve(1);
+                    console.log('191: ' + sche.length + " / " + memo.length);
+                    memoInit(sche, memo);
                     return false;
                 },
-                    error: (req, stat, err) => {
+                error: (req, stat, err) => {
                     console.log('실패');
-                    }
-                });
+                }
             });
-            }
-    
-            memo_ajax()
-            .then(sche_ajax);
+        }
+
+        scheModify = (s_no) => {
+
+        }
+
+        memoModify = (m_no) => {
+
         }
 
         dateInit = () => {
-        var value = [];
-     
-        var currentDay = new Date();  
-        var theYear = currentDay.getFullYear();
-        var theMonth = Number(currentDay.getMonth()) + 1;
-        var theDate  = Number(currentDay.getDate());
-        var theDay  = Number(currentDay.getDay());
-     
-        var newYear, newMonth, newDate;
-     
-        var nowLast = new Date ();
+            var value = [];
+
+            var currentDay = new Date();
+            var theYear = currentDay.getFullYear();
+            var theMonth = Number(currentDay.getMonth()) + 1;
+            var theDate = Number(currentDay.getDate());
+            var theDay = Number(currentDay.getDay());
+
+            var newYear, newMonth, newDate;
+
+            var nowLast = new Date();
             nowLast.setMonth(nowLast.getMonth() + 1);
-        var nowLastDay = new Date( nowLast.getYear(), nowLast.getMonth(), "");
+            var nowLastDay = new Date(nowLast.getYear(), nowLast.getMonth(), "");
             nowLastDay = nowLastDay.getDate();
-     
-        var lastDay; // 이전 달 마지막날 파악
-     
-        for (var i = -theDay; i < (theDay-7)*-1; i++){
-            newYear = theYear;
-            newDate = theDate;
-            newMonth = theMonth;
-            if(theDate+i < 1){
-                if(theMonth == 1){ // 1월 첫째주 일때
-                    lastDay = new Date(Number(currentDay.getFullYear())-1, Number(currentDay.getMonth())+12, "");
-                } else { // 1월 첫째주가 아닐때
-                    lastDay = new Date(currentDay.getFullYear(), currentDay.getMonth(), "");
-                }
-     
-                newYear = lastDay.getFullYear();
-                newMonth = lastDay.getMonth();
-                newDate = Number(lastDay.getDate())+i;
-     
-            } else if( theDate+i > nowLastDay) {
-                if(theMonth == 12){ // 12월 마지막주 일때
-                    newYear = Number(theYear) + 1;
-                }
-                newMonth = Number(theMonth) + 1;
-                newDate = i;
-            }
-            newDate = (newDate + i);
-            // yyyy-mm-dd 형식으로
-            if(String(newDate).length < 2){
-                newDate = "0" + String(newDate);
-            }
-            if(String(newMonth).length < 2){
-                newMonth = "0" + String(newMonth);
-            }
-            //이번주 7일의 날짜를 value에 담는다.
-            value.push(newYear + "-" + newMonth + "-" + newDate);
-        }
 
-        for(var i = 0; i<7; i++){
-            $("#d"+i).append("<br><tag style='font-size:16px;color:#999'>{0}</tag>".format(value[i]));
-        }
-    }
+            var lastDay; // 이전 달 마지막날 파악
 
-    time = ["09", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
-    
-    var memo = "";
-    var sche = "";
-
-    var memoInit = (memo) => {
-        data = "<tr>";
-
-        dMemo = Array();
-        for(var i=0; i<7; i++) {    // Memo Data 전처리
-            dMemo[i] = Array();
-            for(var j=0; j < memo.length; j++){
-                if(new Date(memo[j]['m_date']).getDay()-1 == i)
-                    dMemo[i].push(memo[j]);
-            }
-        }
-
-        for(var i = 0; i<7; i++){   // 메모 생성
-            if(i==0)
-                data = data + "<td style='height:130px'><p class='timeShow' style='color:#000;'>메모</p>"
-            else data = data + "<td style='height:130px'><p class='timeShow' style='color:#FFF;'>메모</p>"
-
-            for(var j = 0; j<dMemo[i].length-0; j++){
-                var tmp = dMemo[i][j];
-                data = data + '<button type="button" class="btn btn-secondary memoButton" style="margin-bottom:12px;" onclick="$(\'#m_no{0}\').css(\'visibility\', $(\'#m_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showMemo">메모</div></div></button><div class="memoContent" style="visibility:hidden;" id="m_no{3}"><div class="memoContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn4">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: { cancel : true, confirm : true,},customClass : \'contentDelete\',});">삭제</a></li><li><a class="dropdown-item" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\'}).then((value)=>{console.log(\'메모: \', {4}, value)});" href="#">공유</a></li></ul></div><div><p class="memoContentTitle"></p><p class="memoContentBody">{5}</p></div></div></div>'.format(tmp['m_no'],tmp['m_no'],tmp['m_content'].substr(0,5).concat("..."), tmp['m_no'], tmp['m_no'], tmp['m_content'])
-            }
-            data = data + "</td>";
-        } data = data + "</tr>";
-        $('#stbody').html($('#stbody').html() + data);
-    }
-
-    var scheInit = (sche, share) => {
-
-        dSche = Array();
-        for(var i=0;i<7;i++){
-            dSche[i] = Array();
-            for(var j=0;j<sche.length;j++){
-                if(i == sche[j]['s_day'])
-                    dSche[i].push(sche[j]);
-            }
-        }
-
-        data = "<tr>";
-        for (var i = 0; i < time.length; i++) { // 시간표 생성
-            data = data + "<tr>";
-            for (var j = 0; j < 7; j++) {
-                data = data + "<td style='height: 130px'>";
-                if(j==0)
-                    data = data + "<p class='timeShow'>{0}</p>".format(time[i] +":00");
-                else
-                    data = data + "<p class='timeShow'></p>";
-
-                for(var z=0; z<dSche[j].length;z++){
-                    var tmp = dSche[j][z];
-                    if(tmp.s_day != j) continue;
-                    if(tmp.s_s <= time[i] && time[i] < tmp.s_e) {
-                        data = data + '<button type="button" class="btn btn-secondary dailyContentButton" onclick="$(\'#s_no{0}\').css(\'visibility\', $(\'#s_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">주간</div></div></button><div class="dailyContent"  style="visibility:hidden;" id="s_no{3}"><div class="dailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: {cancel: true, confirm: true,},customClass : \'contentDelete\'});">삭제</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',}).then((value)=>{console.log(\'일정: \' + {4} + value)});">공유</a></li></ul></div><div><p class="dailyContentTitle">{5}</p><p class="dailyContentBody">{6}</p></div></div><div class="dailyContent-2"><p class="dailyContentShowSeason">{7}</p><p class="dailyContentShowRepeat">{8}</p></div></div>'.format(tmp['s_no'], tmp['s_no'], tmp['s_title'].substr(0, 8).concat(""), tmp['s_no'], tmp['s_no'], tmp['s_title'], tmp['s_content'], (tmp['s_seme'] + 1) + "학기", "임시"); // dayData;
+            for (var i = -theDay; i < (theDay - 7) * -1; i++) {
+                newYear = theYear;
+                newDate = theDate;
+                newMonth = theMonth;
+                if (theDate + i < 1) {
+                    if (theMonth == 1) { // 1월 첫째주 일때
+                        lastDay = new Date(Number(currentDay.getFullYear()) - 1, Number(currentDay.getMonth()) + 12, "");
+                    } else { // 1월 첫째주가 아닐때
+                        lastDay = new Date(currentDay.getFullYear(), currentDay.getMonth(), "");
                     }
-                }
 
+                    newYear = lastDay.getFullYear();
+                    newMonth = lastDay.getMonth();
+                    newDate = Number(lastDay.getDate()) + i;
+
+                } else if (theDate + i > nowLastDay) {
+                    if (theMonth == 12) { // 12월 마지막주 일때
+                        newYear = Number(theYear) + 1;
+                    }
+                    newMonth = Number(theMonth) + 1;
+                    newDate = i;
+                }
+                newDate = (newDate + i);
+                // yyyy-mm-dd 형식으로
+                if (String(newDate).length < 2) {
+                    newDate = "0" + String(newDate);
+                }
+                if (String(newMonth).length < 2) {
+                    newMonth = "0" + String(newMonth);
+                }
+                //이번주 7일의 날짜를 value에 담는다.
+                value.push(newYear + "-" + newMonth + "-" + newDate);
+            }
+
+            for (var i = 0; i < 7; i++) {
+                $("#d" + i).append("<br><tag style='font-size:16px;color:#999'>{0}</tag>".format(value[i]));
+            }
+        }
+
+        time = ["09", "10", "11", "12", "13", "14", "15", "16", "17", "18"];
+
+        var memoInit = (sche, memo) => {
+            data = "<tr>";
+
+            dMemo = Array();
+            for (var i = 0; i < 7; i++) { // Memo Data 전처리
+                dMemo[i] = Array();
+                for (var j = 0; j < memo.length; j++) {
+                    if (new Date(memo[j]['m_date']).getDay() == i)
+                        dMemo[i].push(memo[j]);
+                }
+            }
+
+            console.dir(dMemo);
+
+            for (var i = 0; i < 7; i++) { // 메모 생성
+                if (i == 0)
+                    data = data + "<td style='height:130px'><p class='timeShow' style='color:#000;'>메모</p>"
+                else data = data + "<td style='height:130px'><p class='timeShow' style='color:#FFF;'>메모</p>"
+
+                for (var j = 0; j < dMemo[i].length - 0; j++) {
+                    var tmp = dMemo[i][j];
+                    console.log(tmp.m_user);
+                    if(tmp.m_user == atob(getCookie('token')))
+                    data = data + '<button type="button" class="btn btn-secondary memoButton" style="margin-bottom:12px;" onclick="$(\'#m_no{0}\').css(\'visibility\', $(\'#m_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showMemo">메모</div></div></button><div class="memoContent" style="visibility:hidden;" id="m_no{3}"><div class="memoContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn4">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: { cancel : true, confirm : true,},customClass : \'contentDelete\',});">삭제</a></li><li><a class="dropdown-item" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\'}).then((value)=>{console.log(\'메모: \', {4}, value)});" href="#">공유</a></li></ul></div><div><p class="memoContentTitle"></p><p class="memoContentBody">{5}</p></div></div></div>'.format(tmp['m_no'], tmp['m_no'], tmp['m_content'].substr(0, 5).concat("..."), tmp['m_no'], tmp['m_no'], tmp['m_content'])
+                    else
+                    data = data + '<button type="button" class="btn btn-secondary dailyContentButtonShared" style="margin-bottom:12px;" onclick="$(\'#REF_no{0}\').css(\'visibility\', $(\'#REF_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">{3}님의 메모</div></div></button><div class="sharedDailyContent" style="visibility:hidden;" id="REF_no{4}"><div class="sharedDailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{ buttons: {cancel: true, confirm: true}, customClass:\'contentDelete\'},);">삭제</a></li></ul></div><div><p class="sharedDailyContentTitle">공유받은 일정</p><p class="sharedDailyContentUser">{5}</p><p class="sharedDailyContentBody">{6}</p></div></div><div class="sharedDailyContent-2"> <p class="sharedDailyContentShowSeason">{7}</p><p class="sharedDailyContentShowRepeat">{8}</p></div></div>'.format(tmp['m_no'], tmp['m_no'], tmp['m_content'].substr(0, 5).concat("..."), tmp['m_user'], tmp['m_no'], tmp['m_no'], tmp['m_content'], tmp['m_date'].substr(0, 10), tmp['m_user'] +"님에게 공유받은 메모")
+                }
                 data = data + "</td>";
             }
             data = data + "</tr>";
+            $('#stbody').html($('#stbody').html() + data);
+
+            scheInit(sche)
         }
-        $('#stbody').html($('#stbody').html() + data);
-    }
+
+        var scheInit = (sche) => {
+
+            dSche = Array();
+            for (var i = 0; i < 7; i++) {
+                dSche[i] = Array();
+                for (var j = 0; j < sche.length; j++) {
+                    if (i == sche[j]['s_day'])
+                        dSche[i].push(sche[j]);
+                }
+            }
+
+            console.dir(dSche);
+
+            var data = "<tr>";
+            for (var i = 0; i < time.length; i++) { // 시간표 생성
+                data = data + "<tr>";
+                for (var j = 0; j < 7; j++) {
+                    data = data + "<td style='height: 130px'>";
+                    if (j == 0)
+                        data = data + "<p class='timeShow'>{0}</p>".format(time[i] + ":00");
+                    else
+                        data = data + "<p class='timeShow'></p>";
+
+                    for (var z = 0; z < dSche[j].length; z++) {
+                        var tmp = dSche[j][z];
+                        if (tmp.s_day != j) continue;
+                        if (time[i] == tmp.s_e && tmp.s_end.substr(3, 2) == '00') continue;
+                        if (tmp.s_s <= time[i] && time[i] <= tmp.s_e) {
+                            if(tmp.s_user == atob(getCookie('token')))
+                            data = data + '<button type="button" class="btn btn-secondary dailyContentButton" style="margin-bottom: 12px;" onclick="$(\'#s_no{0}\').css(\'visibility\', $(\'#s_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">주간</div></div></button><div class="dailyContent"  style="visibility:hidden;" id="s_no{3}"><div class="dailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: {cancel: true, confirm: true,},customClass : \'contentDelete\'});">삭제</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',}).then((value)=>{console.log(\'일정: \' + {4} + value)});">공유</a></li></ul></div><div><p class="dailyContentTitle">{5}</p><p class="dailyContentBody">{6}</p></div></div><div class="dailyContent-2"><p class="dailyContentShowSeason">{7}</p><p class="dailyContentShowRepeat">{8}</p></div></div>'.format(tmp['s_no'], tmp['s_no'], tmp['s_title'].substr(0, 8).concat(""), tmp['s_no'], tmp['s_no'], tmp['s_title'], tmp['s_content'], (tmp['s_seme'] + 1) + "학기", tmp.s_start.substr(0, 5) + " ~ " + (tmp.s_end.substr(0, 5))); // dayData;
+                        else 
+                            data = data + '<button type="button" class="btn btn-secondary dailyContentButtonShared" style="margin-bottom: 12px;" onclick="$(\'#s_no{0}\').css(\'visibility\', $(\'#s_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">{3}님의 일정</div></div></button><div class="sharedDailyContent" style="visibility:hidden;" id="s_no{4}"><div class="sharedDailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: {cancel: true, confirm: true,},customClass : \'contentDelete\'});">삭제</a></li></ul></div><div><p class="sharedDailyContentTitle">{5}</p><p class="sharedDailyContentBody">{6}</p></div></div><div class="sharedDailyContent-2"><p class="sharedDailyContentShowSeason">{7}</p><p class="sharedDailyContentShowRepeat">{8}</p></div></div>'.format(tmp['s_no'], tmp['s_no'], tmp['s_title'].substr(0, 8).concat(""),tmp['s_user'], tmp['s_no'], tmp['s_title'], tmp['s_content'], (tmp['s_seme'] + 1) + "학기", tmp.s_start.substr(0, 5) + " ~ " + (tmp.s_end.substr(0, 5))); // dayData;
+                        }
+                    }
+
+                    data = data + "</td>";
+                }
+                data = data + "</tr>";
+            }
+            $('#stbody').html($('#stbody').html() + data);
+        }
 
 
         var count = 0;
@@ -362,13 +379,12 @@
             }, 0);
             count = count + 1
         });
-
     </script>
 
 </head>
 
 
-<body style="font-family : 'Pretendard' ">
+<body style="font-family : 'Pretendard'; margin: 0;">
     <!-- 메모 수정 모달-->
     <div id="myMemoModify" class="modal">
         <!-- 모달안 내용 -->
@@ -385,21 +401,21 @@
                     <div class="form-group">
                         <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                             <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="">
-                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                                    <div class="input-group-text">
-                                        <img id="calendarIcon2" src="{% static 'images/outline_calendar_month_black_24dp.png' %}" />
-                                    </div>
+                            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text">
+                                    <img id="calendarIcon2" src="{% static 'images/outline_calendar_month_black_24dp.png' %}" />
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker2').datetimepicker({
+                <script type="text/javascript">
+                    $(function() {
+                        $('#datetimepicker2').datetimepicker({
                             format: 'L'
-                            });
                         });
-                    </script>
+                    });
+                </script>
 
                 <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
                     <button type="button" id="memoModalCancel" class="btn btn-primary">취소</button>
@@ -437,9 +453,8 @@
                 <div style="align-item:center;" class="timeSelect">
                     <div>
                         <select class="form-select weekSelect" aria-label="Default select example" id="create_sche_day">
-                            <option selected value="0">일요일</option>
-                            <!--<option value="0">일요일</option>-->
-                            <option value="1">월요일</option>
+                            <option value="0">일요일</option>
+                            <option selected value="1">월요일</option>
                             <option value="2">화요일</option>
                             <option value="3">수요일</option>
                             <option value="4">목요일</option>
@@ -448,11 +463,9 @@
                         </select>
                     </div>
                     <div>
-                        <!--<a id="startTimeSelectText">시작 시간</a>-->
                         <input type="time" class="timePicker" style="margin : 10px 4px 10px 16px; border: 0px; border-bottom: 1px solid black" id="create_sche_start">
                     </div>
                     <div>
-                        <!--<text id="endTimeSelectText">종료 시간</text>-->
                         <input type="time" class="timePicker" style="border: 0px;border-bottom: 1px solid black" id="create_sche_end">
                     </div>
                 </div>
@@ -466,8 +479,8 @@
 
                 <div style="margin : 0px 0px 15px 0px;">
                     <a>반복 일정</a>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked>
+                    <label class="form-check-label" for="flexCheckChecked">
                     </label>
                 </div>
 
@@ -493,29 +506,25 @@
 
                 <!--제목과 textarea-->
                 <div>
-                    <textarea class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
+                    <textarea id="create_memo_content" class="form-control modalTextArea" placeholder="메모 내용" style="margin: 0px"></textarea>
                 </div>
 
                 <div class="timeSelect" style="margin:24px 0px 8px 0px;">
                     <!--원래 시간 선택이었는데 날짜 선택으로 바뀜 -->
-                    <text style="width:30px; margin : 9px 30px 5px 15px;">날짜</text>
-                    <div class="form-group">
-                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
-                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                    <div class="input-group-text">
-                                        <img id="calendarIcon" src="{% static 'images/outline_calendar_month_black_24dp.png' %}" />
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#datetimepicker1').datetimepicker({
-                            format: 'L'
-                            });
-                        });
+                    <text style="width:30px; margin : 9px 30px 5px
+                    15px;">날짜</text> <div class="form-group"> <div
+                    class="input-group date" id="datetimepicker1"
+                    data-target-input="nearest"> <input
+                    id="create_memo_date" type="text" class="form-control
+                    datetimepicker-input" data-target="#datetimepicker1"
+                    value=""> <div class="input-group-append"
+                    data-target="#datetimepicker1"
+                    data-toggle="datetimepicker"> <div
+                    class="input-group-text"> <img id="calendarIcon" src="
+                    {% static 'images/outline_calendar_month_black_24dp.png' %}"
+                    /> </div> </div> </div> </div> </div> <script
+                    type="text/javascript"> $(function() { $
+                    ('#datetimepicker1').datetimepicker({ format: 'YYYY-MM-DD' }); });
                     </script>
 
                 <div class="modalButtons" style="padding : 20px 0px 0px 0px;">
@@ -558,9 +567,9 @@
                     <div>
                         <!--<a>요일</a>-->
                         <select class="form-select weekSelect" aria-label="Default select example">
-                            <option selected value="0">일요일</option>
+                            <option value="0">일요일</option>
                             <!--<option value="0">일요일</option>-->
-                            <option value="1">월요일</option>
+                            <option selected value="1">월요일</option>
                             <option value="2">화요일</option>
                             <option value="3">수요일</option>
                             <option value="4">목요일</option>
@@ -587,8 +596,8 @@
 
                 <div style="margin : 0px 0px 15px 0px;">
                     <a style="color : black;">반복 일정</a>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" checked>
+                    <label class="form-check-label" for="flexCheckChecked">
                     </label>
                 </div>
 
@@ -603,23 +612,15 @@
     </div>
     <!--modal modify-->
     <!-- 페이지 상단부분-->
-    <div class="d-flex justify-content-around" style="position: relative; top: -20px;">
-        <div>
-            <h1 id='title' style='display: inline;'></h1>
-            <h1 style='display: inline;'>님의 시간표</h1>
-        </div>
-        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1);location.href='signin';"; class="btn btn-out-line-primary btn-lg">로그아웃</button>
-        <table></table>
-        <table></table>
-        <table></table>
-        <table></table>
-        <table></table>
-        <table></table>
-        <table></table>
+    <div style="position: relative; top: -20px; margin-top:3%; margin-left : 3%; ">
+        <h1 id='title' style='display: inline; font:50px;'></h1>
+        <h1 style='display: inline; font-size:50px;'>님의 시간표</h1>
+        <button id="logout" onclick="javascript:setCookie('token', 'session del', -1);location.href='signin';" ; class="btn btn-out-line-primary btn-lg" style="margin-left : 3%; margin-bottom:1%;">로그아웃</button>
+
         <!--드롭다운 버튼(일정 생성)-->
-        <div class="dropdown">
+        <div class="dropdown" style="position : absolute; left:85%; top:19%;">
             <!--<div class="p-2 flex-sm-shrink-1 bd-highlight">-->
-            <button id="dropdownMenuButton1" type="button" class="btn btn-primary btn-lg" data-bs-toggle="dropdown" aria-expanded="false">
+            <button id="dropdownMenuButton1" type="button" class="btn btn-primary btn-lg" data-bs-toggle="dropdown" aria-expanded="false" style="padding : 0px; width:145px; height : 48px;">
                 <img id="CreateIcon" src="{% static 'images/outline_add_box_white_24dp.png' %}" /> 일정 생성
             </button>
             <!--</div>-->
@@ -628,6 +629,7 @@
                 <li><a id="myBtn2" class="dropdown-item" href="#">메모 생성</a></li>
             </ul>
         </div>
+    </div>
 
 
 
@@ -639,7 +641,7 @@
 
 
     <!-- 시간표 테이블, td은 시간대별 개수, td는 일주일이라 7개씩-->
-    <table class="table table-bordered" style="margin : 1%; border: 1px hidden 1px hidden;">
+    <table class="table table-bordered" style="border: 1px hidden 1px hidden;">
         <tbody id="stbody">
             <tr>
                 <th id='d0'>일요일</th>
@@ -651,11 +653,11 @@
                 <th id='d6'>토요일</th>
             </tr>
 
-<script>
-    
+            <script>
 
-    
-</script>
+
+
+            </script>
 
         </tbody>
 

@@ -2,11 +2,6 @@
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 
-        body {
-
-            margin: 3%;
-
-        }
         h1 {
             color : #5F26FF;
         }
@@ -35,7 +30,7 @@
         }
 
         #CreateIcon {
-            padding: 0px 10px 0px 0px;
+            padding: 0px 5px 0px 0px;
         }
 
         #dropdownMenuButton1 {
@@ -44,7 +39,10 @@
             border-color: #5F26FF;
             box-shadow: initial;
 
-            width: 159px;
+            width : 148px;
+            height : 48px;
+            padding : 0px 0px 0px 0px;
+
 
         }
 
@@ -998,5 +996,6 @@
             box-shadow: initial;
 
             margin-right : 150px;
-            width: 130px;
+            width : 130px;
+            height : 48px;
         }
