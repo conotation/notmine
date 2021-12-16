@@ -237,6 +237,7 @@
         }
 
         shareSche = (s_no, name) => {
+            if(name == "") return;
             $.ajax({
                 type: "POST",
                 url: "https://prec.conota.cf/setRefe",
@@ -247,7 +248,6 @@
                 },
                 success: (res) => {
                     console.log('성공 ' + JSON.stringify(res));
-                    console.dir(data);
                     if (res.success == false) {
                         alert("공유 실패");
                         return false;
