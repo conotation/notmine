@@ -190,6 +190,8 @@
 
             dateInit();
 
+            $('body').keydown((e)=>{if(e.keyCode == 192) new Notification('TvT 알림', {body: "{0}개의 일정과 {1}개의 메모를 불러왔습니다.".format(sche.length, memo.length)})});
+
         });
 
         String.prototype.format = function() {
