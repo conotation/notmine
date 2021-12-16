@@ -185,7 +185,7 @@
             }
             */
 
-            Notifications.requestPermission();
+            //Notification.requestPermission();
             firstInit();
 
             dateInit();
@@ -214,12 +214,12 @@
                     }
                     uFlag = res.user;
 
-                    var title = "TvT 알림"
+                    var title = "TvT 알림";
                     var options = {
-                      body: "오늘은 {0}개의 일정과 {1}개의 메모가 있습니다.".format(res.data[0].length, res.data[1].length);
+                      body: "오늘은 {0}개의 일정과 {1}개의 메모가 있습니다.".format(res.data[0].length, res.data[1].length)
                     }
 
-                    var notification = new Notification(title, options);
+                    //var notification = new Notification(title, options);
                     sche = res.data[0];
                     memo = res.data[1];
 
@@ -296,7 +296,7 @@
             var ii = 0;
             while(ii < 7){
                 $("#d" + ii).append("<br><tag style='font-size:16px;color:#999'>{0}</tag>".format(value[i]));
-                i++;                
+                ii++;                
             }
         }
 

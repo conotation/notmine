@@ -6,7 +6,7 @@ def index(req):
     return render(req, 'timetable.html')
 
 def schedule(req):
-    return render(req, 'schedule.html')
+    return render(req, 'schedule2.html')
 
 def signin(req):
     return render(req, 'signin.html')
