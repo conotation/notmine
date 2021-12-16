@@ -624,7 +624,42 @@
 
             border: none;
             box-shadow: initial;
+        }
 
+        .ifront {
+            width: 100%;
+            text-align: left;
+
+            color: #034159;
+            background-color: #79B4D9;
+            font-weight: 900;
+
+            border: none;
+            box-shadow: initial;
+        }
+
+        .inow {
+            width: 100%;
+            text-align: left;
+
+            color: #FDFDFD;
+            background-color: #0879A6;
+            font-weight: 900;
+
+            border: none;
+            box-shadow: initial;
+        }
+
+        .iback {
+            width: 100%;
+            text-align: left;
+
+            color: #FFF7FB;
+            background-color: #034159;
+            font-weight: 900;
+
+            border: none;
+            box-shadow: initial;
         }
 
         .dailyContentButton:focus {
