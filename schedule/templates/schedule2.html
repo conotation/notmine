@@ -2,7 +2,7 @@
 
 <head>
 
-
+    <title>TwT - 시간표</title>
     <script src="{% static 'JS/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'JS/bootstrap.bundle.js' %}"></script>
     <script src="{% static 'JS/popper.min.js' %}"></script>
@@ -184,6 +184,8 @@
                 modal4.style.display = "none";
             }
             */
+
+            Notifications.requestPermission();
             firstInit();
 
             dateInit();
@@ -211,6 +213,13 @@
                         console.log('데이터 로드 실패');
                     }
                     uFlag = res.user;
+
+                    var title = "TvT 알림"
+                    var options = {
+                      body: "오늘은 {0}개의 일정과 {1}개의 메모가 있습니다.".format(res.data[0].length, res.data[1].length);
+                    }
+
+                    var notification = new Notification(title, options);
                     sche = res.data[0];
                     memo = res.data[1];
 
@@ -284,8 +293,10 @@
                 value.push(newYear + "-" + newMonth + "-" + newDate);
             }
 
-            for (var i = 0; i < 7; i++) {
-                $("#d" + i).append("<br><tag style='font-size:16px;color:#999'>{0}</tag>".format(value[i]));
+            var ii = 0;
+            while(ii < 7){
+                $("#d" + ii).append("<br><tag style='font-size:16px;color:#999'>{0}</tag>".format(value[i]));
+                i++;                
             }
         }
 
