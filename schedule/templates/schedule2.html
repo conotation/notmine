@@ -236,6 +236,32 @@
 
         }
 
+        shareSche = (s_no, name) => {
+            $.ajax({
+                type: "POST",
+                url: "https://prec.conota.cf/setRefe",
+                data: {
+                    "no": s_no,
+                    'name': name,
+                    'key': 0
+                },
+                success: (res) => {
+                    console.log('성공 ' + JSON.stringify(res));
+                    console.dir(data);
+                    if (res.success == false) {
+                        alert("공유 실패");
+                        return false;
+                    }
+
+                    alert("공유 성공");
+                    return false;
+                },
+                error: (req, stat, err) => {
+                    console.log('실패');
+                }
+            });
+        }
+
         dateInit = () => {
             var value = [];
 
@@ -373,7 +399,7 @@
                         if (time[i] == tmp.s_e && tmp.s_end.substr(3, 2) == '00') continue;
                         if (tmp.s_s <= time[i] && time[i] <= tmp.s_e) {
                             if(tmp.s_user == atob(getCookie('token')))
-                            data = data + '<button type="button" class="btn btn-secondary dailyContentButton" style="margin-bottom: 12px;" onclick="$(\'#s_no{0}\').css(\'visibility\', $(\'#s_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">주간</div></div></button><div class="dailyContent"  style="visibility:hidden;" id="s_no{3}"><div class="dailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: {cancel: true, confirm: true,},customClass : \'contentDelete\'});">삭제</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',}).then((value)=>{console.log(\'일정: \' + {4} + value)});">공유</a></li></ul></div><div><p class="dailyContentTitle">{5}</p><p class="dailyContentBody">{6}</p></div></div><div class="dailyContent-2"><p class="dailyContentShowSeason">{7}</p><p class="dailyContentShowRepeat">{8}</p></div></div>'.format(tmp['s_no'], tmp['s_no'], tmp['s_title'].substr(0, 8).concat(""), tmp['s_no'], tmp['s_no'], tmp['s_title'], tmp['s_content'], (tmp['s_seme'] + 1) + "학기", tmp.s_start.substr(0, 5) + " ~ " + (tmp.s_end.substr(0, 5))); // dayData;
+                            data = data + '<button type="button" class="btn btn-secondary dailyContentButton" style="margin-bottom: 12px;" onclick="$(\'#s_no{0}\').css(\'visibility\', $(\'#s_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">주간</div></div></button><div class="dailyContent"  style="visibility:hidden;" id="s_no{3}"><div class="dailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" id="myBtn3">수정</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: {cancel: true, confirm: true,},customClass : \'contentDelete\'});">삭제</a></li><li><a class="dropdown-item" href="#" onclick="swal(\'공유할 상대방의 이름을 적어주세요 \', {customClass : \'contentSharing\',content : \'input\',buttons : [\'취소\', \'공유\'],placeholder : \'상대방 이름\',}).then((value)=>{shareSche({4}, value)});">공유</a></li></ul></div><div><p class="dailyContentTitle">{5}</p><p class="dailyContentBody">{6}</p></div></div><div class="dailyContent-2"><p class="dailyContentShowSeason">{7}</p><p class="dailyContentShowRepeat">{8}</p></div></div>'.format(tmp['s_no'], tmp['s_no'], tmp['s_title'].substr(0, 8).concat(""), tmp['s_no'], tmp['s_no'], tmp['s_title'], tmp['s_content'], (tmp['s_seme'] + 1) + "학기", tmp.s_start.substr(0, 5) + " ~ " + (tmp.s_end.substr(0, 5))); // dayData;
                         else 
                             data = data + '<button type="button" class="btn btn-secondary dailyContentButtonShared" style="margin-bottom: 12px;" onclick="$(\'#s_no{0}\').css(\'visibility\', $(\'#s_no{1}\').css(\'visibility\') == \'hidden\' ? \'visible\' : \'hidden\')"><div class="d-flex bd-highlight"><div class="p-2 flex-grow-1 bd-highlight">{2}</div><div class="p=2 bd-highlight showSeason">{3}님의 일정</div></div></button><div class="sharedDailyContent" style="visibility:hidden;" id="s_no{4}"><div class="sharedDailyContent-1"><div class="btn-group dcDropdown dropdown"><button type="button" id="dropdownMenuButton2" class="btn dropdown-toggle imgButton" data-bs-toggle="dropdown" aria-expanded="false"><img class="moreVert" src="{% static 'images/twotone_more_vert_white_24dp.png' %}" /></button><ul class="dropdown-menu"><li><a class="dropdown-item" href="#" onclick="swal(\'정말 삭제하시겠습니까?\',{buttons: {cancel: true, confirm: true,},customClass : \'contentDelete\'});">삭제</a></li></ul></div><div><p class="sharedDailyContentTitle">{5}</p><p class="sharedDailyContentBody">{6}</p></div></div><div class="sharedDailyContent-2"><p class="sharedDailyContentShowSeason">{7}</p><p class="sharedDailyContentShowRepeat">{8}</p></div></div>'.format(tmp['s_no'], tmp['s_no'], tmp['s_title'].substr(0, 8).concat(""),tmp['s_user'], tmp['s_no'], tmp['s_title'], tmp['s_content'], (tmp['s_seme'] + 1) + "학기", tmp.s_start.substr(0, 5) + " ~ " + (tmp.s_end.substr(0, 5))); // dayData;
                         }
